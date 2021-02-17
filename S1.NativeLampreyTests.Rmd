@@ -1,0 +1,48 @@
+---
+title: "Comparing Native Lamprey and Sea Lamprey"
+output: html_notebook
+---
+
+
+This data file will show the results of across-species PCA and genetic trees on each sea lamprey (PM) stream and test samples of American (LA) and Northern Brook lamprey (IF). The SNPs used to differentiate populations were SNPs location at Rapture targeted loci with over 95% of individuals genotyped in either sea lamprey or native lamprey. The initial PCA and tree was tested on a random sample of 30 sea lamprey individuals across locations:
+
+
+```{r}
+library(tidyverse)
+library(adegenet)
+library(ape)
+
+load("PCAData/genlight_pca_test.RData")
+
+pca <- glPca(snp,nf = 10)
+
+#set colors for plot
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(snp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###Bad River (BAD)
+
+###Betsie River (BEI)
+
+###Betsy River (BET)
+
+###Brule River (BRL)
+
+###
