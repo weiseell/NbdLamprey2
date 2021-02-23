@@ -119,7 +119,14 @@ ggplot(two,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
 all_families1 <- all_families %>% 
   select(OffspringID,MotherID,FatherID,ClusterIndex,clust,samp,cohort)
 #saving family data
-save(all_families,file = "Aging_Models/Family_data_all_locations.rda")
+save(all_families,file = "AgingModels/Family_data_all_locations.rda")
+
+#remove individuals that are not age-1
+two.2.1 <- two.2[-which(!(two.2$ClusterIndex%in%two.1$ClusterIndex)),]
+two.1 <- rbind(two.1,two.2.1)
+
+mir.1 <- rbind(mir.1,mir.2)
+
 #pedigree visualization plots
 bmr.plot <- subset(all_families1,all_families1$samp=="BMR_2017"|all_families1$samp=="BMR_2018")
 ocq.plot <- subset(all_families1,all_families1$samp == "OCQ_2018")

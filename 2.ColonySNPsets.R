@@ -25,7 +25,7 @@ hist(Col_select$pGT)
 
 #Goal 2####
 #merging SNP sets with the corresponding genotype calls
-gt_Col <- merge(Col_select,BET_gt_8X)
+gt_Col <- merge(Col_select,comb_gt_8X)
 
 #making a COLONY input file
 #changing gt_Col into a three col data frame

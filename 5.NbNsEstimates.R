@@ -12,7 +12,7 @@ source("Homebrew/PwoP_boot.R")
 source("Homebrew/Ns_calc.R")
 
 ##1. Calculate Nb - PwoP method and both Ns estimates using reconstructed pedigree
-pops <- c("BAD","BEI","BET","BRL","CAT","CHE","EAG","FOR","MAI","MAN","MIR","MIS","MUS","OCQ","STE","SWN","TAQ","TWO")
+pops <- c("BAD","BEI","BET","BRL","CAT","CHE","EAG","FOR","MAI","MAN","MIR2016","MIS","MUS","OCQ","STE","SWN","TAQ","TWO2018")
 i <- 1
 Nb_PwoP <- data.frame(matrix(nrow = length(pops),ncol = 6))
 colnames(Nb_PwoP) <- c("Pop","PwoP_Nb","kbar","Vk", "PwoP_LCI", "PwoP_HCI")
