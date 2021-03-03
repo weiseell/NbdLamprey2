@@ -14,8 +14,8 @@ source("Homebrew/Ns_calc.R")
 ##1. Calculate Nb - PwoP method and both Ns estimates using reconstructed pedigree
 pops <- c("BAD","BEI","BET","BRL","CAT","CHE","EAG","FOR","MAI","MAN","MIR2016","MIS","MUS","OCQ","STE","SWN","TAQ","TWO2018")
 i <- 1
-Nb_PwoP <- data.frame(matrix(nrow = length(pops),ncol = 6))
-colnames(Nb_PwoP) <- c("Pop","PwoP_Nb","kbar","Vk", "PwoP_LCI", "PwoP_HCI")
+Nb_PwoP <- data.frame(matrix(nrow = length(pops),ncol = 7))
+colnames(Nb_PwoP) <- c("Pop","SampSize","PwoP_Nb","kbar","Vk", "PwoP_LCI", "PwoP_HCI")
 Ns_all <- data.frame(matrix(nrow = length(pops),ncol = 6))
 colnames(Ns_all) <- c("Pop","Ns" ,"Ns_Chao","Chao_uncert","Ns_Jackknife","Jackknife_uncert")
 
@@ -37,7 +37,7 @@ for (i in 1:length(pops)) {
   PwoP_tmp <- PwoP(df1)
   uncert <- PwoP_boot(df1,iter = 1000,alpha = 0.05, real_Nb = PwoP_tmp["Nb"])
   names(uncert) <- c("CI_Lower","CI_Upper")
-  tmp <- c(pops[i],PwoP_tmp,uncert)
+  tmp <- c(pops[i],length(df1$OffspringID),PwoP_tmp,uncert)
   Nb_PwoP[i,] <- tmp
   
   #calculate extrapolated Ns
@@ -78,5 +78,4 @@ Nb_Ns <- Nb_LD1 %>%
   full_join(Nb_SF,by="Pop") %>% 
   full_join(Ns_all,by="Pop")
 
-save(Nb_Ns,file = "Output/genetic.estimates.rda")
 write.table(Nb_Ns,file = "Output/genetic.estimates.txt",append = F,quote = F,sep = "\t")

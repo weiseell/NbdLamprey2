@@ -1,0 +1,157 @@
+---
+title: "Cohort Selection with Length-Based Aging Models and Reconstructed Pedigrees"
+output:
+  html_document:
+    df_print: paged
+---
+
+In the 2019 data, there are three locations with multiple inferred cohorts: the Middle River (MIR, n=457), the Two Hearted River (TWO, n=43), and the Manistee River (MAN, n=185). All other locations have one inferred age cohort for all individuals, or all of the sequenced individuals are in a single inferred cohort. The length histograms are shown for all three locations, where the colors represent the individuals in the inferred age cohorts.
+
+```{r,echo=F,message=F}
+library(tidyverse)
+#MIR
+df <- read.table(file = "AgingModels/lw_cohorts.txt",header = T,sep = "\t")
+df <- df %>% 
+  select(-FatherID:-MotherID)
+mir.1 <- subset(df,df$samp == "MIR_2017" & df$clust == "clust1")
+mir.1$cohort <- "2016"
+mir.2 <- subset(df,df$samp == "MIR_2017" & df$clust == "clust2")
+mir.2$cohort <- "2015"
+mir.3 <- subset(df,df$samp == "MIR_2017" & df$clust == "clust3")
+mir.3$cohort <- "2014"
+mir <- rbind(mir.1,mir.2,mir.3)
+#MAN
+man.1 <- subset(df,df$samp == "MAN_2019" & df$clust == "clust1")
+man.1$cohort <- "2018"
+man.2 <- subset(df,df$samp == "MAN_2019" & df$clust == "clust2")
+man.2$cohort <- "2017"
+man <- rbind(man.1,man.2)
+#TWO
+two.1 <- subset(df,df$samp == "TWO_2019" & df$clust == "clust2")
+two.1$cohort <- "2018"
+two.2 <- subset(df,df$samp == "TWO_2019" & df$clust == "clust3")
+two.2$cohort <- "2017"
+two <- rbind(two.1,two.2)
+```
+
+
+```{r}
+ggplot(df, aes(x=Length, fill = clust)) +
+  facet_wrap(~samp, scales = "free_y") +
+  geom_histogram(aes(fill = factor(clust)),bins = 50) +
+  scale_fill_manual(values = c("#000000","#cccccc","#969696","#636363"),
+                    guide = F)+
+  labs(x="Length (mm)",y="counts")+
+  theme_bw(base_size = 8)
+```
+
+###Middle River
+
+The Middle River has three inferred cohorts, with a pronounced cutoff between age-2 and age-3 cohorts. The age-1 and age-2 cohorts do not have clear peaks. To examine the accuracy of the inferred cohorts, boxplots of individual length sorted by Colony clusters were constructed to examine family overlap across cohorts. The probability of each Colony cluster is represented in the fill of each boxplot, where low probabilities are red and high probabilities have no fill.
+
+```{r}
+ggplot(mir,aes(x=as.character(ClusterIndex),y=Length,group=ClusterIndex,fill=as.numeric(Probability)))+
+  geom_boxplot(outlier.size = 0.1)+theme_bw()+
+  scale_fill_gradient(low = "red",high = "white")+
+  theme(legend.position = 'none')+
+  scale_x_discrete(name="Cluster")
+```
+
+There are a large number of small colony clusters that are helpful but make the plot more difficult to read. Here is a subset of boxplots for clusters with greater than 5 offspring:
+
+```{r}
+counts <- table(mir$ClusterIndex)
+families <- counts[counts>=5]
+
+mir5 <- mir[which(mir$ClusterIndex %in% names(families)),]
+ggplot(mir5,aes(x=as.character(ClusterIndex),y=Length,group=ClusterIndex,fill=as.numeric(Probability)))+
+  geom_boxplot(outlier.size = 0.1)+theme_bw()+
+  scale_fill_gradient(low = "red",high = "white")+
+  theme(legend.position = 'none')+
+  scale_x_discrete(name="Cluster")
+```
+
+The overall trends show that there is significant family overlap between cohorts 1 and 2. Cohort 3 is small, but a few individuals overlap with cohorts 1 and 2.
+
+Looking for specific family clusters that overlap inferred cohorts:
+```{r}
+#testing overlap
+table(mir.1$ClusterIndex%in%mir.2$ClusterIndex)
+table(mir.1$ClusterIndex%in%mir.3$ClusterIndex)
+table(mir.2$ClusterIndex%in%mir.3$ClusterIndex)
+table(mir.2$ClusterIndex%in%mir.1$ClusterIndex)
+table(mir.3$ClusterIndex%in%mir.1$ClusterIndex)
+table(mir.3$ClusterIndex%in%mir.2$ClusterIndex)
+#comparing families
+table(mir.1$ClusterIndex)
+table(mir.2$ClusterIndex)
+table(mir.3$ClusterIndex)
+
+```
+
+###Manistee River
+
+The Manistee River has two inferred cohorts without a clear peak. To examine the accuracy of the inferred cohorts, boxplots of individual length sorted by Colony clusters were constructed to examine family overlap across cohorts. The probability of each Colony cluster is represented in the fill of each boxplot, where low probabilities are red and high probabilities have no fill.
+
+```{r}
+ggplot(man,aes(x=as.character(ClusterIndex),y=Length,group=ClusterIndex,fill=as.numeric(Probability)))+
+  geom_boxplot(outlier.size = 0.1)+theme_bw()+
+  scale_fill_gradient(low = "red",high = "white")+
+  theme(legend.position = 'none')+
+  scale_x_discrete(name="Cluster")
+```
+
+There are a large number of small colony clusters that are helpful but make the plot more difficult to read. Here is a subset of boxplots for clusters with greater than 5 offspring:
+
+```{r}
+counts <- table(man$ClusterIndex)
+families <- counts[counts>=5]
+
+man5 <- man[which(man$ClusterIndex %in% names(families)),]
+ggplot(man5,aes(x=as.character(ClusterIndex),y=Length,group=ClusterIndex,fill=as.numeric(Probability)))+
+  geom_boxplot(outlier.size = 0.1)+theme_bw()+
+  scale_fill_gradient(low = "red",high = "white")+
+  theme(legend.position = 'none')+
+  scale_x_discrete(name="Cluster")
+```
+
+The overall trends show that there is significant family overlap between cohorts 1 and 2. 
+
+Looking for specific family clusters that overlap inferred cohorts:
+```{r}
+#testing overlap
+table(man.1$ClusterIndex%in%man.2$ClusterIndex)
+table(man.2$ClusterIndex%in%man.1$ClusterIndex)
+#comparing families
+table(man.1$ClusterIndex)
+table(man.2$ClusterIndex)
+
+```
+
+###Two-Hearted River
+
+The Two-Hear River has two inferred cohorts with a clear peak. To examine the accuracy of the inferred cohorts, boxplots of individual length sorted by Colony clusters were constructed to examine family overlap across cohorts. The probability of each Colony cluster is represented in the fill of each boxplot, where low probabilities are red and high probabilities have no fill.
+
+```{r}
+ggplot(two,aes(x=as.character(ClusterIndex),y=Length,group=ClusterIndex,fill=as.numeric(Probability)))+
+  geom_boxplot(outlier.size = 0.1)+theme_bw()+
+  scale_fill_gradient(low = "red",high = "white")+
+  theme(legend.position = 'none')+
+  scale_x_discrete(name="Cluster")
+```
+
+
+Looking for specific family clusters that overlap inferred cohorts:
+```{r}
+#testing overlap
+table(two.1$ClusterIndex%in%two.2$ClusterIndex)
+table(two.2$ClusterIndex%in%two.1$ClusterIndex)
+#comparing families
+table(two.1$ClusterIndex)
+table(two.2$ClusterIndex)
+
+```
+
+
+
+
