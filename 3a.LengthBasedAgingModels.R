@@ -42,7 +42,7 @@ for(i in 1:length(samples)){
                         priors = list(kind = "independence",
                                       parameter = "priorsUncertain"))
   control <- JAGScontrol(variables = c("mu", "tau", "eta", "S"),
-                         burn.in = 10000, n.iter = 50000)
+                         burn.in = 10000, n.iter = 500000)
   z <- JAGSrun(len, model = model_tmp, control = control)
   #calculating probabilities
   eta.thresh <- 0.035
@@ -62,7 +62,7 @@ for(i in 1:length(samples)){
 
 ##3. Bayes models for all locations ####
 i <- 1
-bestk <- c(1,1,2,1,1,3,2,2,2,1,2,1,2,4,3,3,3,3,3)
+bestk <- c(1,1,2,1,1,3,2,1,2,1,2,1,2,4,2,2,1,3,3)
 Bmodels <- vector(mode = "list", length = length(samples))
 names(Bmodels) <- samples
 
@@ -131,12 +131,11 @@ for (i in 1:length(samples)) {
 }
 
 #saving individual assignments
-all_locs_Bayes <- rbind(Bmodels[[1]],Bmodels[[2]],Bmodels[[3]],Bmodels[[4]],Bmodels[[5]],Bmodels[[6]],Bmodels[[7]],Bmodels[[8]],Bmodels[[9]],Bmodels[[10]],Bmodels[[11]],Bmodels[[12]],Bmodels[[13]],Bmodels[[14]],Bmodels[[15]],Bmodels[[16]],Bmodels[[17]],Bmodels[[18]],Bmodels[[19]])
 write.table(all_locs_Bayes,file = "AgingModels/lw_Bayes_assignments.txt",sep = "\t",row.names = F,col.names = T,quote = F)
 
 ##4. Plotting all models ####
 #labels for plot
-
+all_locs_Bayes <- read.table("AgingModels/lw_Bayes_assignments.txt",header = T,sep = "\t")
 ggplot(all_locs_Bayes, aes(x=Length, fill = clust)) +
   facet_wrap(~samp, scales = "free_y") +
   geom_histogram(aes(fill = factor(clust)),bins = 50) +

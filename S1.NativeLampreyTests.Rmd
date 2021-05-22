@@ -1,29 +1,32 @@
 ---
 title: "Comparing Native Lamprey and Sea Lamprey"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 
 This data file will show the results of across-species PCA and genetic trees on each sea lamprey (PM) stream and test samples of American (LA) and Northern Brook lamprey (IF). The SNPs used to differentiate populations were SNPs location at Rapture targeted loci with over 95% of individuals genotyped in either sea lamprey or native lamprey. The initial PCA and tree was tested on a random sample of 30 sea lamprey individuals across locations:
 
 
-```{r}
+###Test Data Set to generate PCA: 
+```{r,echo=F,message=FALSE}
 library(tidyverse)
 library(adegenet)
 library(ape)
-
 load("PCAData/genlight_pca_test.RData")
 
+#run PCA
 pca <- glPca(snp,nf = 10)
-
 #set colors for plot
+locs <- data.frame(ID=snp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
 locs$col <- NA
 for(i in 1:length(locs$spp)){
   if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
   if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
   if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
 }
-
 #plot PCA
 par(mfrow=c(1,2))
 plot(pca$scores[,1], pca$scores[,2],
@@ -38,11 +41,490 @@ plot(tre, typ="fan", cex=0.7)
 ```
 
 ###Bad River (BAD)
+```{r,echo=F,message=FALSE}
+load(file = "PCAData/genlight_pca_all.RData")
+LA <- snp[grep("LA",snp@ind.names),]
+IF <- snp[grep("IF",snp@ind.names),]
+PM <- snp[grep("BAD",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
 
 ###Betsie River (BEI)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("BEI",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
 
 ###Betsy River (BET)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("BET",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
 
 ###Brule River (BRL)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("BRL",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
 
-###
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###Cattaraugus River (CAT)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("CAT",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###Cheboygan River (CHE)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("CHE",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###East Au Gres River (EAG)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("EAG",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###Ford River (FOR)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("FOR",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###Little Two-Hearted River (TWO)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("TWO",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###Manistee River (MAN)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("MAN",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###Manistique River (MAI)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("MAI",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###Middle River (MIR)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("MIR",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###Misery River (MIS)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("MIS",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###Muskegon River (MUS)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("MUS",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###Ocqueoc River (OCQ)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("OCQ",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###Sterling River (STE)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("STE",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###Swan Creek (SWN)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("SWN",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```
+
+###Tahquamenon River (TAQ)
+```{r,echo=F,message=FALSE}
+PM <- snp[grep("TAQ",snp@ind.names),]
+tmp <- rbind(LA,IF,PM)
+locs <- data.frame(ID=tmp@ind.names)
+locs <- locs %>% separate(ID, into = c("spp","loc","indiv"),sep = "_") %>% select(spp)
+locs$col <- NA
+for(i in 1:length(locs$spp)){
+  if(locs$spp[i] == "LA"){locs$col[i] <- "blue"}
+  if(locs$spp[i] == "IF"){locs$col[i] <- "dark green"}
+  if(locs$spp[i] == "PM"){locs$col[i] <- "purple"}
+}
+pca <- glPca(tmp,nf=10)
+
+#plot PCA
+par(mfrow=c(1,2))
+plot(pca$scores[,1], pca$scores[,2],
+     col=locs$col,cex=0.5)
+plot(pca$scores[,1], pca$scores[,3],
+     col=locs$col,cex=0.5)
+
+#construct tree
+tre <- nj(dist(as.matrix(tmp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
+```

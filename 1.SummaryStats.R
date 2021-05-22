@@ -33,6 +33,9 @@ MAF <- data.frame(ID = AC_summ$ID, MAF = AC_summ$MAF, stringsAsFactors = F)
 #change NAs to empty data
 comb_gt8X[is.na(comb_gt8X)] <- "./."
 comb_gt8X$ID <- paste0(comb_gt8X$CHROM,"-",comb_gt8X$POS)
+#remove empty rows
+comb_gt8X <- comb_gt8X[which(!(rowSums(comb_gt8X=="./.")==2075)),]
+
 #calculate heterozygosity
 n_indiv <- ncol(comb_gt8X)-1
 stats <- data.frame(ID = comb_gt8X$ID,stringsAsFactors = F)
@@ -65,6 +68,8 @@ rapture_class <- rapture_class %>%
   select(ID,everything())
 SNPsumm <- merge(rapture_class,stats)
 
+SNPsumm1 <- subset(SNPsumm,SNPsumm$target != "NonTarget")
+mean(SNPsumm1$pGT)
 #save two main outputs from this script
 #summary stats, target classifications, and on-target SNPs
 save(SNPsumm,file = "Summaries/SNP_summaries_targets.rda")

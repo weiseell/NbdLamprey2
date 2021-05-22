@@ -264,3 +264,11 @@ rapture2 <- rapture1 %>%
   select(CHROM,min,max)
 
 write.table(rapture2,"rapture_seqs.bed",quote = F,append = F,row.names = F)
+
+
+
+
+#mean depth 
+comb_depth[comb_depth==-1]<-0
+means <- apply(comb_depth[,-c(1:2)], 2, function(x) mean(x,na.rm = T))
+mean(means)
