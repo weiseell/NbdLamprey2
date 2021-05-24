@@ -42,7 +42,7 @@ for(i in 1:length(samples)){
                         priors = list(kind = "independence",
                                       parameter = "priorsUncertain"))
   control <- JAGScontrol(variables = c("mu", "tau", "eta", "S"),
-                         burn.in = 10000, n.iter = 50000)
+                         burn.in = 10000, n.iter = 500000)
   z <- JAGSrun(len, model = model_tmp, control = control)
   #calculating probabilities
   eta.thresh <- 0.035
@@ -62,7 +62,8 @@ for(i in 1:length(samples)){
 
 ##3. Bayes models for all locations ####
 i <- 1
-bestk <- c(1,1,2,1,1,3,2,2,2,1,2,1,2,4,3,3,3,3,3)
+samples <- sort(samples)
+bestk <- c(2,1,1,2,2,2,2,1,2,1,1,3,2,2,1,1,2,1,2)
 Bmodels <- vector(mode = "list", length = length(samples))
 names(Bmodels) <- samples
 
@@ -84,19 +85,18 @@ for (i in 1:length(samples)) {
   }
 }
 #sorting for models with multiple cohorts
-Bmodels[["CAT_2019"]] <- Sort(Bmodels[["CAT_2019"]],by = "mu")
-Bmodels[["MAI_2019"]] <- Sort(Bmodels[["MAI_2019"]],by = "mu")
-Bmodels[["SWN_2019"]] <- Sort(Bmodels[["SWN_2019"]],by = "mu")
-Bmodels[["MAN_2019"]] <- Sort(Bmodels[["MAN_2019"]],by = "mu")
-Bmodels[["CHE_2019"]] <- Sort(Bmodels[["CHE_2019"]],by = "mu")
-Bmodels[["MUS_2019"]] <- Sort(Bmodels[["MUS_2019"]],by = "mu")
-Bmodels[["EAG_2019"]] <- Sort(Bmodels[["EAG_2019"]],by = "mu")
-Bmodels[["GRN_2019"]] <- Sort(Bmodels[["GRN_2019"]],by = "mu")
-Bmodels[["BRL_2019"]] <- Sort(Bmodels[["BRL_2019"]],by = "mu")
-Bmodels[["MIS_2019"]] <- Sort(Bmodels[["MIS_2019"]],by = "mu")
-Bmodels[["TWO_2019"]] <- Sort(Bmodels[["TWO_2019"]],by = "mu")
 Bmodels[["BAD_2019"]] <- Sort(Bmodels[["BAD_2019"]],by = "mu")
-Bmodels[["MIR_2017"]] <- Sort(Bmodels[["MIR_2017"]],by = "mu")
+Bmodels[["BRL_2019"]] <- Sort(Bmodels[["BRL_2019"]],by = "mu")
+Bmodels[["CAT_2019"]] <- Sort(Bmodels[["CAT_2019"]],by = "mu")
+Bmodels[["CHE_2019"]] <- Sort(Bmodels[["CHE_2019"]],by = "mu")
+Bmodels[["EAG_2019"]] <- Sort(Bmodels[["EAG_2019"]],by = "mu")
+Bmodels[["MAI_2019"]] <- Sort(Bmodels[["MAI_2019"]],by = "mu")
+Bmodels[["MIR_2019"]] <- Sort(Bmodels[["MIR_2019"]],by = "mu")
+Bmodels[["MIS_2019"]] <- Sort(Bmodels[["MIS_2019"]],by = "mu")
+Bmodels[["MUS_2019"]] <- Sort(Bmodels[["MUS_2019"]],by = "mu")
+Bmodels[["MIS_2019"]] <- Sort(Bmodels[["MIS_2019"]],by = "mu")
+Bmodels[["SWN_2019"]] <- Sort(Bmodels[["SWN_2019"]],by = "mu")
+Bmodels[["TWO_2019"]] <- Sort(Bmodels[["TWO_2019"]],by = "mu")
 
 i <- 1
 all_locs_Bayes <- data.frame(matrix(ncol=8,nrow = 0))
@@ -131,16 +131,37 @@ for (i in 1:length(samples)) {
 }
 
 #saving individual assignments
-all_locs_Bayes <- rbind(Bmodels[[1]],Bmodels[[2]],Bmodels[[3]],Bmodels[[4]],Bmodels[[5]],Bmodels[[6]],Bmodels[[7]],Bmodels[[8]],Bmodels[[9]],Bmodels[[10]],Bmodels[[11]],Bmodels[[12]],Bmodels[[13]],Bmodels[[14]],Bmodels[[15]],Bmodels[[16]],Bmodels[[17]],Bmodels[[18]],Bmodels[[19]])
 write.table(all_locs_Bayes,file = "AgingModels/lw_Bayes_assignments.txt",sep = "\t",row.names = F,col.names = T,quote = F)
 
 ##4. Plotting all models ####
 #labels for plot
-
+plotnames <- c("Bad River",
+               "Betsie River",
+               "Betsy River",
+               "Brule River",
+               "Cattaraugus River",
+               "Pigeon River",
+               "East Au Gres River",
+               "Ford River",
+               "Grand River",
+               "Manistique River",
+               "Manistee River",
+               "Middle River",
+               "Misery River",
+               "Muskegon River",
+               "Ocqueoc River",
+               "Sterling River",
+               "Swan Creek",
+               "Tahquamenon River",
+               "Two-Hearted River")
+names(plotnames) <- sort(unique(all_locs_Bayes$samp))
+all_locs_Bayes <- read.table("AgingModels/lw_Bayes_assignments.txt",header = T,sep = "\t")
+tiff(filename = "Figures/LengthHistograms.tiff",height = 9,width = 12,units = "in",res = 200)
 ggplot(all_locs_Bayes, aes(x=Length, fill = clust)) +
-  facet_wrap(~samp, scales = "free_y") +
+  facet_wrap(~samp, scales = "free_y",labeller = labeller(samp=plotnames)) +
   geom_histogram(aes(fill = factor(clust)),bins = 50) +
   scale_fill_manual(values = c("#000000","#cccccc","#969696","#636363"),
                     guide = F)+
   labs(x="Length (mm)",y="counts")+
   theme_bw(base_size = 8)
+dev.off()
