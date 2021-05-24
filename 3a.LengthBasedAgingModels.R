@@ -155,7 +155,9 @@ plotnames <- c("Bad River",
                "Tahquamenon River",
                "Two-Hearted River")
 names(plotnames) <- sort(unique(all_locs_Bayes$samp))
+
 all_locs_Bayes <- read.table("AgingModels/lw_Bayes_assignments.txt",header = T,sep = "\t")
+
 tiff(filename = "Figures/LengthHistograms.tiff",height = 9,width = 12,units = "in",res = 200)
 ggplot(all_locs_Bayes, aes(x=Length, fill = clust)) +
   facet_wrap(~samp, scales = "free_y",labeller = labeller(samp=plotnames)) +
