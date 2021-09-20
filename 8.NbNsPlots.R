@@ -34,9 +34,11 @@ plotnames <- c("Bad River",
                "Tahquamenon River",
                "Two-Hearted River")
 names(plotnames) <- locs
+
 #loop to generate pedigree plots
 tiff(filename = "Figures/FamilyPlots.tiff",height = 15,width = 12,units = "in",res = 400)
 par(mfrow = c(5,4),mai = c(0.3, 0.3, 0.5, 0.5))
+
 for (i in 1:length(locs)) {
   #read in file
   tmp <- readLines(paste0("SoftwareOutput/",locs[i],".Output.data.BestCluster"))
@@ -132,6 +134,9 @@ for (i in 1:length(locs)) {
     geom_hline(yintercept=Ns_tmp[[2]]$chao,col = "darkred")+
     #geom_text(data=data.frame(x=0,y=Ns_tmp[[2]]$chao), aes(x, y), label=paste("Chao = ",round(Ns_tmp[[2]]$chao,digits = 2)),hjust=0, vjust=-1,size = 3)+
     geom_hline(yintercept=Ns_tmp[[2]]$jack1,col = "darkblue")+
+    #geom_hline(yintercept=Ns_tmp[[2]]$jack1,col = "darkblue")+
+    #geom_text(data=data.frame(x=0,y=Ns_tmp[[2]]$chao), aes(x, y), label=paste("Chao = ",round(Ns_tmp[[2]]$chao,digits = 2)),hjust=0, vjust=1.5,size = 3)+
+    #geom_hline(yintercept=Ns_tmp[[2]]$jack1,col = "darkblue")+
     #geom_text(data=data.frame(x=0,y=Ns_tmp[[2]]$jack1), aes(x, y), label=paste("Jackknife = ",round(Ns_tmp[[2]]$jack1,digits = 2)),hjust=0, vjust=1.5,size = 3)+
     xlab("Number of offspring sampled")+
     ylab("Number of parent genotypes")+

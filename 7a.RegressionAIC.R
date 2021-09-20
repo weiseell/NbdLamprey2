@@ -7,7 +7,12 @@ Nc <- read.table("Models/env_data_all_locations.txt",header = T,sep = "\t")
 Nb_Ns <- read.table("Output/genetic.estimates.txt",header = T,sep = "\t")
 df1 <- merge(Nb_Ns,Nc)
 ###global to single factor models
-input <- df1[,c("LD_Nb","SF_Nb","Ns_Chao","Vk","YearSinceTreat","Drainage","TrapToMouth","SampSites","SampSize")]
+input <- df1[,c("LD_Nb","SF_Nb","Ns_Chao","Vk","YearSinceTreat","Drainage","TrapToMouthKm","SampDist","SampSize","NcAge1")]
+input <- na.omit(input)
+factors <- input[,c("LD_Nb","SF_Nb","Ns_Chao","Vk")]
+responses <- input[,c("YearSinceTreat","Drainage","TrapToMouthKm","SampDist","SampSize","NcAge1")]
+input <- df1 %>% 
+  select(LD_Nb,SF_Nb,Ns_Chao,Vk,YearSinceTreat,Drainage,TrapToMouthKm,SampDist,SampSize,NcAge1)
 input <- na.omit(input)
 factors <- input[,c("LD_Nb","SF_Nb","Ns_Chao","Vk")]
 responses <- input[,c("YearSinceTreat","Drainage","TrapToMouth","SampSites","SampSize")]
@@ -114,13 +119,17 @@ modelLD1 <- glm(factors$LD_Nb~responses$SampSize+responses$SampSites)
 summary(modelLD1)
 plotdat <- data.frame(LD_Nb=factors$LD_Nb,SampSize=responses$SampSize)
 LDplot1 <- ggplot(plotdat,aes(x=SampSize,y=LD_Nb))+
+modelLD <- glm(factors$LD_Nb~responses$SampSize)
+summary(modelLD)
+
+plotdat <- data.frame(LD_Nb=factors$LD_Nb,SampSize=responses$SampSize)
+ggplot(plotdat,aes(x=SampSize,y=LD_Nb))+
   geom_point()+
   theme_bw()+
   geom_smooth(method = "glm", se = F,col = "darkblue")+
   xlab("Sample Size")+
   ylab("Nb - LD")+
   ggtitle("Sample Size vs. Linkage Disequilibrium")+
-  stat_regline_equation(aes(label = ..rr.label..))
 
 
 modelLD2 <- glm(factors$LD_Nb~responses$Drainage)
@@ -136,6 +145,15 @@ LDplot2 <- ggplot(plotdat,aes(x=Drainage,y=LD_Nb))+
   stat_regline_equation(aes(label = ..rr.label..))
 
 modelLD3 <- glm(factors$LD_Nb~responses$SampSize)
+ggplot(plotdat,aes(x=Drainage,y=LD_Nb))+
+  geom_point()+
+  theme_bw()+
+  xlab("Drainage (ha)")+
+  ylab("log(Nb - LD)")
+
+modelLD2 <- glm(factors$LD_Nb~responses$Drainage)
+summary(modelLD2)
+modelLD3 <- glm(factors$LD_Nb~responses$YearSinceTreat)
 summary(modelLD3)
 modelLD4 <- glm(factors$LD_Nb~1)
 summary(modelLD4)
@@ -153,6 +171,7 @@ summary(modelLD8)
 #SF
 modelSF <- glm(factors$SF_Nb~responses$SampSites)
 summary(modelSF)
+
 plotdat <- data.frame(SF_Nb=factors$SF_Nb,SampSites=responses$SampSites)
 SFplot1 <- ggplot(plotdat,aes(x=SampSites,y=SF_Nb))+
   geom_point()+
@@ -162,6 +181,20 @@ SFplot1 <- ggplot(plotdat,aes(x=SampSites,y=SF_Nb))+
   ylab("Nb - SF")+
   ggtitle("Sample Sites vs. Sibship Frequency")+
   stat_regline_equation(aes(label = ..rr.label..))
+
+plot(factors$SF_Nb,responses$SampSize,
+     pch = 16, 
+     xlab = "Nb - SF",  
+     ylab = "Sample Size")
+
+modelSF2 <- glm(factors$SF_Nb~responses$Drainage)
+summary(modelSF2)
+plotdat <- data.frame(SF_Nb=factors$SF_Nb,Drainage=responses$Drainage)
+ggplot(plotdat,aes(x=Drainage,y=SF_Nb))+
+  geom_point()+
+  theme_bw()+
+  xlab("Drainage (ha)")+
+  ylab("Nb - SF")
 
 modelSF2 <- glm(factors$SF_Nb~responses$Drainage)
 summary(modelSF2)
@@ -201,6 +234,20 @@ ChaoPlot1 <- ggplot(plotdat,aes(x=SampSize,y=Ns_Chao))+
   ggtitle("Sample Size vs. Chao")+
   stat_regline_equation(aes(label = ..rr.label..))
 
+ggplot(plotdat,aes(x=SampSize,y=Ns_Chao))+
+  geom_point()+
+  theme_bw()+
+  #geom_smooth(method = "glm", se = F,col = "darkblue")+
+  xlab("Sample Size")+
+  ylab("log(Ns - Chao)")
+
+modelChao2 <- glm(factors$Ns_Chao~responses$Drainage)
+summary(modelChao2)
+plot(factors$Ns_Chao,responses$Drainage,
+     pch = 16, 
+     xlab = "Ns - Chao",  
+     ylab = "Drainage (ha)")
+
 modelChao2 <- glm(factors$Ns_Chao~responses$Drainage)
 summary(modelChao2)
 plot(factors$Ns_Chao,responses$Drainage,
@@ -221,7 +268,21 @@ ChaoPlot2 <- ggplot(plotdat,aes(x=SampSites,y=Ns_Chao))+
 summary(modelChao4)
 modelChao5 <- glm(factors$Ns_Chao~1)
 summary(modelChao5)
+
 modelChao8 <- glm(factors$Ns_Chao~responses$Drainage+responses$TrapToMouth)
+plotdat <- data.frame(Ns_Chao=factors$Ns_Chao,SampDist=responses$SampDist)
+ggplot(plotdat,aes(x=SampDist,y=Ns_Chao))+
+  geom_point()+
+  theme_bw()+
+  geom_smooth(method = "glm", se = F,col = "darkblue")+
+  xlab("Sampling Distance")+
+  ylab("log(Ns - Chao)")
+
+modelChao6 <- glm(factors$Ns_Chao~responses$TrapToMouthKm)
+summary(modelChao6)
+modelChao7 <- glm(factors$Ns_Chao~responses$NcAge1)
+summary(modelChao7)
+modelChao8 <- glm(factors$Ns_Chao~responses$Drainage+responses$TrapToMouthKm)
 summary(modelChao8)
 
 #Vk
@@ -241,10 +302,10 @@ multiplot(cols=2,LDplot1,SFplot1,ChaoPlot1,LDplot2,SFplot2,ChaoPlot2)
 dev.off()
 #separate larval population models ####
 ###global to single factor models
-input2 <- df1[,c("LD_Nb","SF_Nb","Ns_Chao","Vk","YearSinceTreat","Drainage","SampSites","SampSize","LarvalPop")]
+input2 <- df1[,c("LD_Nb","SF_Nb","Ns_Chao","Vk","YearSinceTreat","Drainage","SampDist","SampSize","LarvalPop")]
 input2 <- na.omit(input2)
 factors2 <- input2[,c("LD_Nb","SF_Nb","Ns_Chao","Vk")]
-responses2 <- input2[,c("YearSinceTreat","Drainage","SampSites","SampSize","LarvalPop")]
+responses2 <- input2[,c("YearSinceTreat","Drainage","SampDist","SampSize","LarvalPop")]
 
 #rerun global models with this set
 AICc_table2 <- data.frame(matrix(nrow = 9,ncol = 5))
@@ -253,12 +314,24 @@ AICc_table2$ModelName <- c("global",colnames(responses2),"sampling","biotic","in
 pval_table2 <- data.frame(matrix(nrow = 9,ncol = 5))
 colnames(pval_table2) <- c("ModelName",colnames(factors2))
 pval_table2$ModelName <- c("global",colnames(responses2),"sampling","biotic","intercept")
+
+AICc_table2$ModelName <- c("global",colnames(responses2),"sampling","biotic","intercept")
+pval_table2 <- data.frame(matrix(nrow = 9,ncol = 5))
+colnames(pval_table2) <- c("ModelName",colnames(factors2))
+pval_table2$ModelName <- c("global",colnames(responses2),"sampling","biotic","intercept")
+
+AICc_table2$ModelName <- c("global",colnames(responses2),"sampling","environmental","biotic")
+pval_table2 <- data.frame(matrix(nrow = 9,ncol = 5))
+colnames(pval_table2) <- c("ModelName",colnames(factors2))
+pval_table2$ModelName <- c("global",colnames(responses2),"sampling","environmental","biotic")
+
 facnames <- colnames(factors2)
 modeltmp <- glm(factors2$LD_Nb~responses2$YearSinceTreat+responses2$Drainage+responses2$LarvalPop+responses2$SampDist+responses2$SampSize)
 AICc_table2[1,2] <- AIC(modeltmp)+((2*5*(5+1))/(nrow(modeltmp$model)-5-1)) 
 pval_table2[1,2] <- summary(modeltmp)$coefficients[,4][2]
 
 modeltmp <- glm(factors2$SF_Nb~responses2$YearSinceTreat+responses2$Drainage+responses2$LarvalPop+responses2$SampDist+responses2$SampSize)
+
 AICc_table2[1,3] <- AIC(modeltmp)+((2*5*(5+1))/(nrow(modeltmp$model)-5-1)) 
 pval_table2[1,3] <- summary(modeltmp)$coefficients[,4][2]
 
@@ -285,6 +358,35 @@ pval_table2[9,4] <- summary(modeltmp)$coefficients[,4][2]
 modeltmp <- glm(factors2$Vk~1)
 AICc_table2[9,5] <- AICc(modeltmp)  
 pval_table2[9,5] <- summary(modeltmp)$coefficients[,4][2]
+
+modeltmp <- glm(factors2$LD_Nb~responses2$YearSinceTreat+responses2$Drainage+responses2$LarvalPop+responses2$SampDist+responses2$SampSize)
+AICc_table2[1,3] <- AIC(modeltmp)+((2*5*(5+1))/(nrow(modeltmp$model)-5-1)) 
+pval_table2[1,3] <- summary(modeltmp)$coefficients[,4][2]
+
+modeltmp <- glm(factors2$Ns_Chao~responses2$YearSinceTreat+responses2$Drainage+responses2$LarvalPop+responses2$SampDist+responses2$SampSize)
+AICc_table2[1,4] <- AIC(modeltmp)+((2*5*(5+1))/(nrow(modeltmp$model)-5-1)) 
+pval_table2[1,4] <- summary(modeltmp)$coefficients[,4][2]
+
+modeltmp <- glm(factors2$Vk~responses2$YearSinceTreat+responses2$Drainage+responses2$LarvalPop+responses2$SampDist+responses2$SampSize)
+AICc_table2[1,5] <- AIC(modeltmp)+((2*5*(5+1))/(nrow(modeltmp$model)-5-1)) 
+pval_table2[1,5] <- summary(modeltmp)$coefficients[,4][2]
+#run intercept models
+modeltmp <- glm(factors2$LD_Nb~1)
+AICc_table2[9,2] <- AICc(modeltmp) 
+pval_table2[9,2] <- summary(modeltmp)$coefficients[,4][2]
+
+modeltmp <- glm(factors2$SF_Nb~1)
+AICc_table2[9,3] <- AICc(modeltmp) 
+pval_table2[9,3] <- summary(modeltmp)$coefficients[,4][2]
+
+modeltmp <- glm(factors2$Ns_Chao~1)
+AICc_table2[9,4] <- AICc(modeltmp) 
+pval_table2[9,4] <- summary(modeltmp)$coefficients[,4][2]
+
+modeltmp <- glm(factors2$Vk~1)
+AICc_table2[9,5] <- AICc(modeltmp)  
+pval_table2[9,5] <- summary(modeltmp)$coefficients[,4][2]
+
 #single factor and hypotheses models
 for (a in 1:length(factors2)) {
   f <- factors2[,a]
@@ -301,16 +403,18 @@ for (a in 1:length(factors2)) {
   #sampling model
   modeltmp <- glm(f~SampDist+SampSize,data = tmp)
   AICc_table2[7,a+1] <- AIC(modeltmp)+((2*2*(2+1))/(nrow(modeltmp$model)-2-1))
-  pval_table2[7,a+1] <- summary(modeltmp)$coefficients[,4][2]
-  #biotic model
-  modeltmp <- glm(f~LarvalPop+YearSinceTreat,data = tmp)
+  #environmental model
+  modeltmp <- glm(f~Drainage,data = tmp)
   AICc_table2[8,a+1] <- AIC(modeltmp)+((2*2*(2+1))/(nrow(modeltmp$model)-2-1))
   pval_table2[8,a+1] <- summary(modeltmp)$coefficients[,4][2]
+  #biotic model
+  modeltmp <- glm(f~LarvalPop+YearSinceTreat,data = tmp)
+  AICc_table2[9,a+1] <- AIC(modeltmp)+((2*2*(2+1))/(nrow(modeltmp$model)-2-1))
+  pval_table2[9,a+1] <- summary(modeltmp)$coefficients[,4][2]
 }
 
 #examine AICc for the best model in each factor
 apply(AICc_table2, 2, min)
-
 #Akaike Weights for larval pop models
 LD_AICc <- data.frame(ModelName = AICc_table2$ModelName,AICc_value = AICc_table2$LD_Nb)
 LD_AICc$AkaikeWeights <- akaike.weights(LD_AICc$AICc_value)$weights

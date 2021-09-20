@@ -67,7 +67,8 @@ for(i in 1:length(samples)){
 ##3. Bayes models for all locations ####
 i <- 1
 samples <- sort(samples)
-bestk <- c(3,1,1,2,2,2,2,1,3,2,2,2,2,2,1,1,2,1,3)
+bestk <- c(2,1,1,2,2,2,2,1,2,1,1,3,2,2,1,1,2,1,2)
+
 Bmodels <- vector(mode = "list", length = length(samples))
 names(Bmodels) <- samples
 
@@ -169,6 +170,9 @@ plotnames <- c("Bad River",
                "Two-Hearted River")
 names(plotnames) <- sort(unique(all_locs_Bayes$samp))
 #all_locs_Bayes <- read.table("AgingModels/lw_Bayes_assignments.txt",header = T,sep = "\t")
+
+all_locs_Bayes <- read.table("AgingModels/lw_Bayes_assignments.txt",header = T,sep = "\t")
+
 tiff(filename = "Figures/LengthHistograms.tiff",height = 9,width = 12,units = "in",res = 200)
 ggplot(all_locs_Bayes, aes(x=Length, fill = clust)) +
   facet_wrap(~samp, scales = "free_y",labeller = labeller(samp=plotnames)) +
