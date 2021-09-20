@@ -1,0 +1,20 @@
+Output from NeEstimator v2.1
+Starting time: Wed Jul  7 14:52:57 2021
+Input File: "OCQNeestimator_2019_age1.txt"
+
+Number of Loci = 2999
+
+
+Mating Model: Random
+
+Lowest allele frequency used:    0.0500
+Up to 17 righmost characters can be shown for population names.
+-------------------------------------------------------------------------------------------------------------------------
+Population #   Samp  Weighted      #Indep.   r^2     Exp(r^2)       Ne^                 CIs for Ne^
+then by :Name  Size  H. Mean       Alleles            Sample                    Parametric       Jackknife Samp  (Eff.df)
+-------------------------------------------------------------------------------------------------------------------------
+1:PM_OCQ_397   121    112.4      783063  0.011177  0.008733      134.3     132.4     136.3     105.0     179.9      2353
+
+Ending time: Wed Jul  7 14:55:00 2021
+-------------------------------------
+

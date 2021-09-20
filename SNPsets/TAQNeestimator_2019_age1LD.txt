@@ -1,0 +1,36 @@
+Output from NeEstimator v2.1
+Starting time: Wed Jul  7 14:58:59 2021
+Input File: "TAQNeestimator_2019_age1.txt"
+
+Number of Loci = 2982
+
+LD mating model: Random
+
+(Symbol "No S*" in Frequency means that NO Singleton Alleles are accepted.)
+
+Population     1 [PM_TAQ_001]  (Number of Individuals = 94)
+****************
+--------------------------------------------------------------
+Lowest Allele Frequency Used     0.050       No S*         0+
+--------------------------------------------------------------
+
+LINKAGE DISEQUILIBRIUM METHOD
+
+Harmonic Mean Sample Size =       82.6        87.6        87.0
+Independent Comparisons =    1114503     3175520     4394913
+OverAll r^2 =                 0.017681    0.016191    0.015089
+Expected r^2 Sample =         0.011530    0.011432    0.011433
+Estimated Ne^ =                   52.0        67.9        89.1
+
+95% CIs for Ne^
+* Parametric                      51.6        67.5        88.6
+                                  52.4        68.3        89.6
+
+* JackKnife on Samples            39.0        52.1        69.0
+                                  72.3        92.3       120.2
+
+**************************************************************
+
+Ending time: Wed Jul  7 15:00:40 2021
+-------------------------------------
+

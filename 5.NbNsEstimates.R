@@ -8,11 +8,11 @@ library(tidyverse)
 
 #load functions
 source("Homebrew/PwoP.R")
-source("Homebrew/PwoP_boot.R")
+source("Homebrew/PwoP_uncert.R")
 source("Homebrew/Ns_calc.R")
 
 ##1. Calculate Nb - PwoP method and both Ns estimates using reconstructed pedigree
-pops <- c("BAD","BEI","BET","BRL","CAT","CHE","EAG","FOR","MAI","MAN","MIR2016","MIS","MUS","OCQ","STE","SWN","TAQ","TWO2018")
+pops <- c("BAD","BEI","BET","BRL","CAT","CHE","EAG","FOR","MAI","man2018","mir2016","MIS","MUS","OCQ","STE","SWN","TAQ","TWO")
 i <- 1
 Nb_PwoP <- data.frame(matrix(nrow = length(pops),ncol = 7))
 colnames(Nb_PwoP) <- c("Pop","SampSize","PwoP_Nb","kbar","Vk", "PwoP_LCI", "PwoP_HCI")
@@ -33,9 +33,12 @@ for (i in 1:length(pops)) {
   colnames(df1) <- df1[1,]
   df1 <- df1[-1,]
   
+  #read in configarchive for PwoP uncertainty
+  ca_tmp <- readLines(paste0("SoftwareOutput/",pops[i],".Output.data.ConfigArchive"))
+  
   #calculate Nb_PwoP
   PwoP_tmp <- PwoP(df1)
-  uncert <- PwoP_boot(df1,iter = 1000,alpha = 0.05, real_Nb = PwoP_tmp["Nb"])
+  uncert <- PwoP_uncert(ca = ca_tmp,bc = df1)
   names(uncert) <- c("CI_Lower","CI_Upper")
   tmp <- c(pops[i],length(df1$OffspringID),PwoP_tmp,uncert)
   Nb_PwoP[i,] <- tmp
@@ -47,10 +50,10 @@ for (i in 1:length(pops)) {
 
 
 ##2. Extract Nb - LD method from NeEstimator tabular output
-Nb_LD <- read.table("SNPsets/Neestimator_2019LDxLD_edit.txt",header = T)
+Nb_LD <- read.table("SoftwareOutput/All_Neestimator_2019_age1LDxLD.txt",header = T)
 Nb_LD1 <- Nb_LD %>% 
-  select(Pop,SampSize,Nb,Jack_LCI,Jack_HCI) %>% 
-  rename(LD_Nb=Nb,LD_LCI=Jack_LCI,LD_HCI=Jack_HCI)
+  select(Pop,SampSize,Nb,JackLCI,JackHCI) %>% 
+  rename(LD_Nb=Nb,LD_LCI=JackLCI,LD_HCI=JackHCI)
 #3. Extract Nb - SF method from Colony Ne output
 i <- 1
 Nb_SF <- data.frame(matrix(nrow = length(pops),ncol = 4))

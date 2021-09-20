@@ -8,9 +8,12 @@ library(tidyverse)
 #load homebrew functions:
 source("Homebrew/LD_filter.R")
 source("Homebrew/vcf_genepop.R")
+source("Homebrew/vcf_colony.R")
 source("Homebrew/genepop_create.R")
+source("Homebrew/marker_create.R")
+source("Homebrew/colonydat_create.R")
 #load input data:
-load("Genotypes/all_PM_gts_8X.rda")
+load("Genotypes/all_PM_gts.rda")
 load("Summaries/SNP_summaries_targets.rda")
 load("SNPsets/COLONY_SNPset.rda")
 load("SNPsets/NeEst_SNPset.rda")
@@ -53,18 +56,13 @@ gp_format <- gp_format %>%
   gather(key = "SNP",value = "gt",-indiv,-pop)
 
 #writing Colony files for pops with multiple cohorts
-mirSNP <- comb_gt8X[,which(colnames(comb_gt8X)%in%mir.1$OffspringID)]
-mirSNP <- cbind(comb_gt8X[,1:2],mirSNP)
-twoSNP <- comb_gt8X[,which(colnames(comb_gt8X)%in%two.1$OffspringID)]
-twoSNP <- cbind(comb_gt8X[,1:2],twoSNP)
-mirSNP <- merge(Col_select,mirSNP)
-twoSNP <- merge(Col_select,twoSNP)
-colSNPs <- merge(mirSNP,twoSNP)
-
-col_input <- colSNPs %>% 
+gts <- read.table(paste0("Input/MAN_GTs.GT.FORMAT"),header = T,sep = "\t",stringsAsFactors = F)
+gts$ID <- paste0(gts$CHROM,"-",gts$POS)
+gt_Col <- merge(Colony_out[["MAN"]],gts)
+col_input <- gt_Col %>% 
   #making generic loci names for COLONY here
-  mutate(locus = paste0("L",1:nrow(colSNPs))) %>% 
-  select(-CHROM:-pGT) %>% 
+  mutate(locus = paste0("L",1:nrow(gt_Col))) %>% 
+  select(-CHROM:-MAF) %>% 
   gather(key = "id",value = "gt",-locus)
 #converting gts from .vcf format to COLONY format
 col_format <- vcf_colony(col_input)
@@ -73,31 +71,49 @@ SNPs <- colnames(col_format)
 SNPs <- SNPs[-1]
 markers <- marker_create(SNPs,cod = 0,gte = 0.02,ote = 0.001)
 
-pops <- c("MIR","TWO")
-i <- 1
-for (i in 1:length(pops)) {
-  tmp_col <- col_format[grep(pattern = pops[i],x = col_format$id),]
-  colonydat_create(moms = NA,dads = NA,kids = tmp_col,markers = markers,update.alfs = 0,spp.type = 2,inbreeding = 0,
-                   ploidy = 0,fem.gamy = 0,mal.gamy = 0,clone = 0,sib.scale = 0,sib.prior = 0,known.alfs = 0,
-                   run.number = 1,run.length = 2,monitor = 1,windows.version = 1,full.likelihood = 1,likelihood.precision = 3,
-                   prob.mom = 0,prob.dad = 0,output_file = paste0("SNPsets/ColonyFiles/",pops[i],"_021820_colony2.dat"))
-  
-}
+man2018 <- col_format[which(col_format$id %in% man_2018$OffspringID),]
+colonydat_create(moms = NA,dads = NA,kids = man2018,markers = markers,update.alfs = 0,spp.type = 2,inbreeding = 0,
+                 ploidy = 0,fem.gamy = 0,mal.gamy = 0,clone = 0,sib.scale = 0,sib.prior = 0,known.alfs = 0,
+                 run.number = 1,run.length = 2,monitor = 1,windows.version = 1,full.likelihood = 1,likelihood.precision = 3,
+                 prob.mom = 0,prob.dad = 0,output_file = "SNPsets/man2018_colony2_062521.dat")
+
+#writing Colony files for pops with multiple cohorts
+gts <- read.table(paste0("Input/MIR_GTs.GT.FORMAT"),header = T,sep = "\t",stringsAsFactors = F)
+gts$ID <- paste0(gts$CHROM,"-",gts$POS)
+gt_Col <- merge(Colony_out[["MIR"]],gts)
+col_input <- gt_Col %>% 
+  #making generic loci names for COLONY here
+  mutate(locus = paste0("L",1:nrow(gt_Col))) %>% 
+  select(-CHROM:-MAF) %>% 
+  gather(key = "id",value = "gt",-locus)
+#converting gts from .vcf format to COLONY format
+col_format <- vcf_colony(col_input)
+#making the markers file for COLONY
+SNPs <- colnames(col_format)
+SNPs <- SNPs[-1]
+markers <- marker_create(SNPs,cod = 0,gte = 0.02,ote = 0.001)
+
+mir2016 <- col_format[which(col_format$id %in% mir_2016$OffspringID),]
+colonydat_create(moms = NA,dads = NA,kids = mir2016,markers = markers,update.alfs = 0,spp.type = 2,inbreeding = 0,
+                 ploidy = 0,fem.gamy = 0,mal.gamy = 0,clone = 0,sib.scale = 0,sib.prior = 0,known.alfs = 0,
+                 run.number = 1,run.length = 2,monitor = 1,windows.version = 1,full.likelihood = 1,likelihood.precision = 3,
+                 prob.mom = 0,prob.dad = 0,output_file = "SNPsets/mir2016_colony2_062521.dat")
 
 
 #making the NeEstimator files
-mirSNP <- comb_gt8X[,which(colnames(comb_gt8X)%in%mir.1$OffspringID)]
-mirSNP <- cbind(comb_gt8X[,1:2],mirSNP)
-twoSNP <- comb_gt8X[,which(colnames(comb_gt8X)%in%two.1$OffspringID)]
-twoSNP <- cbind(comb_gt8X[,1:2],twoSNP)
-mirSNP <- merge(LD_select,mirSNP)
-twoSNP <- merge(LD_select,twoSNP)
-LDSNPs <- merge(mirSNP,twoSNP)
+mirSNP <- comb_gts[,which(colnames(comb_gts)%in%mir_2016$OffspringID)]
+mirSNP <- cbind(comb_gts[,1:2],mirSNP)
+manSNP <- comb_gts[,which(colnames(comb_gts)%in%man_2018$OffspringID)]
+manSNP <- cbind(comb_gts[,1:2],manSNP)
 
+mirSNP <- merge(MIR_LD_select,mirSNP)
+manSNP <- merge(MAN_LD_select,manSNP)
+
+##MIR
 #formatting for input
-gp_input <- LDSNPs %>%
+gp_input <- mirSNP %>%
   select(ID,everything()) %>% 
-  select(-CHROM:-MAF) %>% 
+  select(-CHROM:-target) %>% 
   gather(key = "indiv",value = "gt",-ID) %>% 
   rename(SNP=ID)
 #changing formatting from .vcf to genepop
@@ -108,7 +124,28 @@ gp_format <- gp_format %>%
   select(-spp,-num) %>% 
   gather(key = "SNP",value = "gt",-indiv,-pop)
 
-genepop_create(gp_format,output_file = "SNPsets/Neestimator_2019_age1.txt",title = "Test file for NeEstimator")
+genepop_create(gp_format,output_file = "SNPsets/MIRNeestimator_2019_age1.txt",title = "Test file for NeEstimator")
+
+
+##MAN
+#formatting for input
+gp_input <- manSNP %>%
+  select(ID,everything()) %>% 
+  select(-CHROM:-target) %>% 
+  gather(key = "indiv",value = "gt",-ID) %>% 
+  rename(SNP=ID)
+#changing formatting from .vcf to genepop
+gp_format <- vcf_genepop(gp_input)
+gp_format <- gp_format %>% 
+  mutate(indiv1=indiv) %>% 
+  separate(indiv1,into = c("spp","pop","num"),sep = "_") %>% 
+  select(-spp,-num) %>% 
+  gather(key = "SNP",value = "gt",-indiv,-pop)
+
+genepop_create(gp_format,output_file = "SNPsets/MANNeestimator_2019_age1.txt",title = "Test file for NeEstimator")
+
+
+
 
 
 

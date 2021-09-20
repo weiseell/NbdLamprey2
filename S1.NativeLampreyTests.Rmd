@@ -58,16 +58,17 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
-plot(pca$scores[,1], pca$scores[,2],
-     col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
-
+tiff(filename = "Figures/PCA_BAD.tiff",height = 5,width = 5,units = "in",res = 200)
+plot(pca$scores[,1], pca$scores[,2],col=locs$col,cex=0.5)
+text(x = -5, y = 5, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = 10, y = -12, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -85, y = 0, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Bad River")
+dev.off()
 #construct tree
-tre <- nj(dist(as.matrix(tmp)))
+#tre <- nj(dist(as.matrix(tmp)))
 #plot tree
-plot(tre, typ="fan", cex=0.7)
+#plot(tre, typ="fan", cex=0.7)
 ```
 
 ###Betsie River (BEI)
@@ -85,16 +86,19 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_BEI.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -15, y = 3, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = -15, y = 20, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -85, y = 0, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Betsie River")
+dev.off()
 
 #construct tree
-tre <- nj(dist(as.matrix(tmp)))
+#tre <- nj(dist(as.matrix(tmp)))
 #plot tree
-plot(tre, typ="fan", cex=0.7)
+#plot(tre, typ="fan", cex=0.7)
 ```
 
 ###Betsy River (BET)
@@ -112,11 +116,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_BET.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -15, y = 3, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = -15, y = 20, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -85, y = 0, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Betsy River")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
@@ -139,11 +146,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_BRL.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -15, y = 3, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = 15, y = -15, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -85, y = 0, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Brule River")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
@@ -166,11 +176,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_CAT.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -15, y = 3, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = -10, y = 20, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -85, y = 0, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Cattaraugus River")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
@@ -193,11 +206,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_CHE.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -15, y = 3, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = -10, y = -15, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -85, y = 0, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Pigeon River")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
@@ -220,11 +236,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_EAG.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -15, y = 5, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = -15, y = -10, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = 80, y = -5, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("East Au Gres River")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
@@ -247,11 +266,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_FOR.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -15, y = 3, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = 0, y = 20, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -100, y = 3, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Ford River")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
@@ -274,11 +296,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_TWO.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -15, y = 3, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = 0, y = 20, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -100, y = 3, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Two-Hearted River")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
@@ -301,11 +326,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_MAN.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -15, y = 3, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = 0, y = 20, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -100, y = 3, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Manistee River")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
@@ -328,11 +356,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_MAI.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -15, y = 3, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = 15, y = -12, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -80, y = 2, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Manistique River")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
@@ -355,12 +386,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_MIR.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
-
+text(x = -20, y = 3, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = -5, y = 20, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -100, y = 2, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Middle River")
+dev.off()
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
 #plot tree
@@ -382,11 +415,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_MIS.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -2, y = 3, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = 10, y = -13, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -90, y = 3, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Misery River")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
@@ -409,11 +445,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_MUS.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -2, y = 3, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = 10, y = -13, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -90, y = 3, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Muskegon River")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
@@ -436,11 +475,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_OCQ.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -15, y = 3, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = 0, y = 20, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -90, y = 0, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Ocqueoc River")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
@@ -463,11 +505,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_STE.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -15, y = 3, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = 0, y = 20, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -90, y = 0, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Sterling River")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
@@ -490,11 +535,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_SWN.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -15, y = 0, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = 0, y = 15, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -90, y = 0, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Swan Creek")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))
@@ -517,11 +565,14 @@ for(i in 1:length(locs$spp)){
 pca <- glPca(tmp,nf=10)
 
 #plot PCA
-par(mfrow=c(1,2))
+tiff(filename = "Figures/PCA_TAQ.tiff",height = 5,width = 5,units = "in",res = 200)
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
-plot(pca$scores[,1], pca$scores[,3],
-     col=locs$col,cex=0.5)
+text(x = -15, y = 0, "P.marinus", pos =4, col = "purple",cex = 0.8)
+text(x = 0, y = 18, "I.fosser", pos =1, col = "dark green",cex = 0.8)
+text(x = -90, y = 0, "L.appendix", pos =3, col = "blue",cex = 0.8)
+title("Tahquamenon River")
+dev.off()
 
 #construct tree
 tre <- nj(dist(as.matrix(tmp)))

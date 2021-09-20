@@ -1,0 +1,20 @@
+Output from NeEstimator v2.1
+Starting time: Wed Jul  7 14:30:32 2021
+Input File: "BRLNeestimator_2019_age1.txt"
+
+Number of Loci = 2937
+
+
+Mating Model: Random
+
+Lowest allele frequency used:    0.0500
+Up to 17 righmost characters can be shown for population names.
+-------------------------------------------------------------------------------------------------------------------------
+Population #   Samp  Weighted      #Indep.   r^2     Exp(r^2)       Ne^                 CIs for Ne^
+then by :Name  Size  H. Mean       Alleles            Sample                    Parametric       Jackknife Samp  (Eff.df)
+-------------------------------------------------------------------------------------------------------------------------
+1:PM_BRL_001    33     30.4     1903535  0.038537  0.034111       73.2      71.9      74.5      40.5     230.5      1128
+
+Ending time: Wed Jul  7 14:31:15 2021
+-------------------------------------
+

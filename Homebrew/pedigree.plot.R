@@ -8,8 +8,8 @@ pedigree.plot <- function(family,title = "Pedigree Plot"){
   moms <- unique(family$MotherID)
   dads <- unique(family$FatherID)
 
-  momdots <- data.frame(ID = c(1:length(moms)), y = seq(from=1,to=length(family$OffspringID),length.out=length(moms)))
-  daddots <- data.frame(ID = c(1:length(dads)), y = seq(from=1,to=length(family$OffspringID),length.out=length(dads)))
+  momdots <- data.frame(ID = moms, y = seq(from=1,to=length(family$OffspringID),length.out=length(moms)))
+  daddots <- data.frame(ID = dads, y = seq(from=1,to=length(family$OffspringID),length.out=length(dads)))
   
   #make the plot points
   plot(x = c(1,2,3), 
@@ -24,10 +24,10 @@ pedigree.plot <- function(family,title = "Pedigree Plot"){
   #make the lines in the plot
   for(r in 1:length(family$OffspringID)) {
     #mom line
-    lines(x=c(2,1), y = c(r, momdots$y[family$Mother[r]]), lwd = 0.5,col = "grey")
+    lines(x=c(2,1), y = c(r, momdots$y[which(family$Mother[r]==momdots$ID)]), lwd = 0.5,col = "grey")
     
     #dad line
-    lines(x =c(2,3), y = c(r, daddots$y[family$Father[r]]), lwd = 0.5,col = "grey")
+    lines(x =c(2,3), y = c(r, daddots$y[which(family$Father[r]==daddots$ID)]), lwd = 0.5,col = "grey")
   }
   
   #adding labels

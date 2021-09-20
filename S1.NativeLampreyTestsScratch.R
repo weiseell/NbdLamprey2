@@ -14,14 +14,17 @@ rapture1 <- link_file1 %>%
   select(ID, CHROM, min, max)
 
 colSums(nl == "./.")
-nl <- nl %>% select(-LA_06)
+nl <- nl %>% select(-LA_06,-IF_01)
 gt_missing <- rowSums(nl == "./.")
-nl$pGT <- (1-(gt_missing/26))
+nl$pGT <- (1-(gt_missing/25))
+
+
 
 nl_SNPs <- nl %>% filter(pGT > 0.95) %>% select(CHROM,POS)
 target <- match_tags(SNPs = nl_SNPs,tags = rapture1)
 target1 <- target[[2]]
 nl_targets <- merge(target1,nl)
+
 SNPsumm <- SNPsumm %>% 
   filter(pGT > 0.95)
 
@@ -29,6 +32,7 @@ test_gts <- comb_gt8X[,sample(3:ncol(comb_gt8X),30,replace = F)]
 test_gts <- cbind(comb_gt8X[,1:2],test_gts)
 comb_targets <- test_gts %>% 
   mutate(ID=paste(CHROM,POS,sep = "-"))
+comb_targets <- merge(SNPsumm,test_gts)
 nl_targets <- nl_targets %>% 
   mutate(ID=paste(CHROM,POS,sep = "-"))
 all_SNPs <- comb_targets %>% 
@@ -38,8 +42,8 @@ all_SNPs[is.na(all_SNPs)] <- "0/0"
 
 col1 <- all_SNPs %>% 
   select(ID,everything()) %>% 
-  select(-CHROM:-POS) %>% 
-  select(-target,-pGT)
+  select(-CHROM:-MAF) %>% 
+  select(-target.y,-pGT.y)
 row.names(col1) <- col1$ID
 SNPs <- rownames(col1)
 indiv <- colnames(col1)
@@ -82,14 +86,19 @@ for(i in 1:length(locs$spp)){
 
 #run pca
 pca <- glPca(snp,nf = 10)
-save(pca,file = "pca_combined.RData")
+save(pca,file = "pca_test.RData")
 #plot pca
 plot(pca$scores[,1], pca$scores[,2],
      col=locs$col,cex=0.5)
 plot(pca$scores[,1], pca$scores[,3],
      col=locs$col,cex=0.5)
 #make a tree
+#construct tree
+tre <- nj(dist(as.matrix(snp)))
+#plot tree
+plot(tre, typ="fan", cex=0.7)
 
+#subset genlight for each population
 
 
 

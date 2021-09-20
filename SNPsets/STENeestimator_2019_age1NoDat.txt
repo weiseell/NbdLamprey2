@@ -1,0 +1,130 @@
+Missing data from input file STENeestimator_2019_age1.txt.
+
+Possible four types of missing data at a locus:
+	1. Genotype contains only zeros or partially scored.
+	2. Genotype has less digits than normal one.
+	3. Genotype has more digits than normal one.
+	4. Genotype contains non-digit character.
+Types 3 and 4 stop the program.
+
+In the table, each row is for an individual with missing data
+(a) If column 'Locus' has only one number, then it is the first
+    locus with missing data and also of highest missing data type.
+(b) If column 'Locus' has 2 numbers, then the first number is
+    the first locus with data missing, and the second number is
+    the first locus that has highest missing data type.
+(c) Genotype column contains the genotype of the locus in case (a)
+    or the second locus in case (b).
+
+Population 1 [PM_STE_001]
+-----------------------------------------------------------
+Individual       Locus         Genotype     Number of Loci
+                                          with missing data
+       1           71             0000            20
+       2           71             0000            31
+       3            7             0000            39
+       4           71             0000            42
+       5           71             0000            33
+       6           14             0000            47
+       7           76             0000            31
+       8           71             0000            24
+       9           71             0000            27
+      10           71             0000            37
+      11           53             0000            31
+      12           71             0000            37
+      13           35             0000            45
+      14           71             0000            48
+      15           71             0000            33
+      16           71             0000            30
+      17           71             0000            36
+      18            4             0000            39
+      19           71             0000            29
+      20           71             0000            32
+      21           71             0000            48
+      22           15             0000            56
+      23           35             0000            35
+      24           14             0000            48
+      25           35             0000            52
+      26           71             0000            40
+      27           71             0000            36
+      28           14             0000            32
+      29            4             0000            65
+      30           71             0000            39
+      31           42             0000            51
+      32           71             0000            39
+      33           15             0000            70
+      34           71             0000            37
+      35           71             0000            41
+      36           14             0000            47
+      37           71             0000            34
+      38           71             0000            37
+      39           71             0000            44
+      40           71             0000            44
+      41           25             0000            54
+      42           15             0000            72
+      43           71             0000            51
+      44           71             0000            37
+      45            4             0000            75
+      46           35             0000            42
+      47           71             0000            66
+      48           71             0000            31
+      49           14             0000            44
+      50           71             0000            51
+      51           71             0000            40
+      52           71             0000            50
+      53           71             0000            44
+      54           71             0000            38
+      55           71             0000            53
+      56           71             0000            29
+      57           71             0000            39
+      58           71             0000            40
+      59           71             0000            72
+      60           71             0000            56
+      61           15             0000            42
+      62           71             0000            46
+      63           71             0000            34
+      64            4             0000            59
+      65           26             0000            92
+      66           14             0000            90
+      67           35             0000            59
+      68           26             0000            78
+      69           26             0000            92
+      70           35             0000            55
+      71            4             0000            57
+      72           26             0000           109
+      73            4             0000           129
+      74            4             0000            90
+      75            4             0000            69
+      76           35             0000            71
+      77           14             0000            76
+      78           14             0000            75
+      79            4             0000            69
+      80           71             0000            63
+      81           71             0000            62
+      82           14             0000            73
+      83            4             0000            50
+      84            4             0000            91
+      85            4             0000            83
+      86           26             0000            57
+      87            4             0000           120
+      88            4             0000           106
+      89            4             0000           122
+      90            4             0000           118
+      91            4             0000           132
+      92            4             0000           107
+      93            4             0000           170
+      94            4             0000           119
+      95            4             0000           117
+      96            4             0000           160
+      97            4             0000           123
+      98           15             0000           128
+      99            4             0000           143
+     100            4             0000           111
+     101            4             0000           114
+     102            4             0000           115
+     103            4             0000           151
+     104            4             0000           200
+     105            4             0000           230
+-----------------------------------------------------------
+Total missing data for population    1:         7027
+

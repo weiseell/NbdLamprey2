@@ -1,0 +1,43 @@
+Output from NeEstimator v2.1
+Starting time: Wed Jul  7 14:44:04 2021
+Input File: "MIRNeestimator_2019_age1.txt"
+
+Number of Loci = 3018
+
+Non-polymorphic loci:    89,   135,   269,   278,   296,   346,   349,   370,
+          448,   511,   537,   553,   642,   739,   748,  1112,  1172,  1242,
+         1247,  1261,  1308,  1480,  1557,  1582,  1585,  1636,  1638,  1639,
+         1670,  1687,  1729,  1747,  1836,  1867,  1913,  1955,  2008,  2016,
+         2087,  2175,  2452,  2460,  2557,  2612,  2668,  2795,  3006
+Total non-polymorphic = 47
+
+LD mating model: Random
+
+(Symbol "No S*" in Frequency means that NO Singleton Alleles are accepted.)
+
+Population     1 [PM_MIR_011]  (Number of Individuals = 436)
+****************
+--------------------------------------------------------------
+Lowest Allele Frequency Used     0.050       No S*         0+
+--------------------------------------------------------------
+
+LINKAGE DISEQUILIBRIUM METHOD
+
+Harmonic Mean Sample Size =      384.7       414.2       412.4
+Independent Comparisons =     410211     3140021     4347507
+OverAll r^2 =                 0.003858    0.003472    0.003408
+Expected r^2 Sample =         0.002427    0.002385    0.002393
+Estimated Ne^ =                  230.9       304.6       326.4
+
+95% CIs for Ne^
+* Parametric                     228.2       303.1       324.9
+                                 233.7       306.2       327.8
+
+* JackKnife on Samples           204.6       267.4       284.4
+                                 262.4       350.4       378.7
+
+**************************************************************
+
+Ending time: Wed Jul  7 14:50:09 2021
+-------------------------------------
+

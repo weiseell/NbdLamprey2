@@ -1,0 +1,20 @@
+Output from NeEstimator v2.1
+Starting time: Wed Jul  7 14:41:23 2021
+Input File: "MANNeestimator_2019_age1.txt"
+
+Number of Loci = 3016
+
+
+Mating Model: Random
+
+Lowest allele frequency used:    0.0500
+Up to 17 righmost characters can be shown for population names.
+-------------------------------------------------------------------------------------------------------------------------
+Population #   Samp  Weighted      #Indep.   r^2     Exp(r^2)       Ne^                 CIs for Ne^
+then by :Name  Size  H. Mean       Alleles            Sample                    Parametric       Jackknife Samp  (Eff.df)
+-------------------------------------------------------------------------------------------------------------------------
+1:PM_MAN_001   171    144.5       42545  0.008737  0.006136      126.0     120.4     132.0     100.8     162.4      1598
+
+Ending time: Wed Jul  7 14:43:16 2021
+-------------------------------------
+

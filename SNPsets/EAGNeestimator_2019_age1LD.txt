@@ -1,0 +1,36 @@
+Output from NeEstimator v2.1
+Starting time: Tue Aug  3 17:25:54 2021
+Input File: "EAGNeestimator_2019_age1.txt"
+
+Number of Loci = 2990
+
+LD mating model: Random
+
+(Symbol "No S*" in Frequency means that NO Singleton Alleles are accepted.)
+
+Population     1 [PM_EAG_001]  (Number of Individuals = 21)
+****************
+--------------------------------------------------------------
+Lowest Allele Frequency Used     0.050       No S*         0+
+--------------------------------------------------------------
+
+LINKAGE DISEQUILIBRIUM METHOD
+
+Harmonic Mean Sample Size =       20.4        20.6        20.4
+Independent Comparisons =    2349848     2744474     3515216
+OverAll r^2 =                 0.648216    0.634629    0.538549
+Expected r^2 Sample =         0.057105    0.056420    0.057020
+Estimated Ne^ =                    0.3         0.3         0.3
+
+95% CIs for Ne^
+* Parametric                       0.3         0.3         0.3
+                                   0.3         0.3         0.3
+
+* JackKnife on Samples             0.2         0.2         0.3
+                                   0.3         0.3         0.4
+
+**************************************************************
+
+Ending time: Tue Aug  3 17:26:27 2021
+-------------------------------------
+

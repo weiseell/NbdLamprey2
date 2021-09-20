@@ -1,0 +1,36 @@
+Output from NeEstimator v2.1
+Starting time: Wed Jul  7 14:36:08 2021
+Input File: "CHENeestimator_2019_age1.txt"
+
+Number of Loci = 2872
+
+LD mating model: Random
+
+(Symbol "No S*" in Frequency means that NO Singleton Alleles are accepted.)
+
+Population     1 [PM_CHE_058]  (Number of Individuals = 51)
+****************
+--------------------------------------------------------------
+Lowest Allele Frequency Used     0.050       No S*         0+
+--------------------------------------------------------------
+
+LINKAGE DISEQUILIBRIUM METHOD
+
+Harmonic Mean Sample Size =       41.7        46.2        46.1
+Independent Comparisons =    1290454     2741103     4055146
+OverAll r^2 =                 0.053173    0.064085    0.059770
+Expected r^2 Sample =         0.022234    0.022018    0.021885
+Estimated Ne^ =                    8.0         4.0         5.5
+
+95% CIs for Ne^
+* Parametric                       7.9         4.0         5.4
+                                   8.0         4.0         5.5
+
+* JackKnife on Samples             6.3         3.4         3.7
+                                   9.7         6.1         7.7
+
+**************************************************************
+
+Ending time: Wed Jul  7 14:37:06 2021
+-------------------------------------
+

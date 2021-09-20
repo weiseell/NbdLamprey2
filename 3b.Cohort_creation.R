@@ -17,7 +17,7 @@ all_locs <- all_locs %>%
 all_locs %>% 
   group_by(samp) %>% 
   summarise(nclust=length(unique(clust)),ss=n(),max_len = max(Length))
-locs <- c("MAN","MIR","TWO")
+locs <- c("CAT","MAN","MIR")
 best_config <- data.frame(matrix(ncol=5,nrow = 0))
 #read in pedigree data for locations with multiple inferred cohorts
 for (i in 1:length(locs)) {
@@ -56,21 +56,16 @@ man.1$cohort <- "2018"
 man.2 <- subset(df,df$samp == "MAN_2019" & df$clust == "clust2")
 man.2$cohort <- "2017"
 man <- rbind(man.1,man.2)
-#TWO
-two.1 <- subset(df,df$samp == "TWO_2019" & df$clust == "clust2")
-two.1$cohort <- "2018"
-two.2 <- subset(df,df$samp == "TWO_2019" & df$clust == "clust3")
-two.2$cohort <- "2017"
-two <- rbind(two.1,two.2)
 
 ##quantifying family relationships across clusters
 #MIR
 #testing overlap
 table(mir$ClusterIndex)
-table(mir.1$ClusterIndex%in%mir.2$ClusterIndex)
+table(mir.2$ClusterIndex%in%mir.1$ClusterIndex)
 table(mir.1$ClusterIndex%in%mir.3$ClusterIndex)
 table(mir.2$ClusterIndex%in%mir.3$ClusterIndex)
-bmr_sing <- mir.1[!(mir.1$ClusterIndex %in% mir.2$ClusterIndex),]
+mir_sing <- mir.2[(mir.2$ClusterIndex %in% mir.1$ClusterIndex),]
+mir_2016 <- rbind(mir.1,mir_sing)
 
 #comparing families
 table(mir.1$ClusterIndex)
@@ -89,6 +84,9 @@ table(mir$ClusterIndex)
 #testing overlap
 table(man$ClusterIndex)
 table(man.1$ClusterIndex%in%man.2$ClusterIndex)
+table(man.2$ClusterIndex%in%man.1$ClusterIndex)
+man_sing <- man.1[which(man.1$ClusterIndex%in%man.2$ClusterIndex),]
+man_2018 <- rbind(man.2,man_sing)
 #comparing families
 table(man.1$ClusterIndex)
 table(man.2$ClusterIndex)
@@ -100,20 +98,6 @@ ggplot(man,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 
-##two
-#testing overlap
-table(two$ClusterIndex)
-table(two.2$ClusterIndex%in%two.1$ClusterIndex)
-#comparing families
-table(two.1$ClusterIndex)
-table(two.2$ClusterIndex)
-
-ggplot(two,aes(x=ClusterIndex,y=Length,color=cohort))+
-  geom_point()+theme_bw()
-
-ggplot(two,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
-  geom_boxplot()+theme_bw()+
-  scale_fill_gradient(low = "red",high = "white")
 
 ##family diagrams
 all_families1 <- all_families %>% 
@@ -128,14 +112,12 @@ two.1 <- rbind(two.1,two.2.1)
 mir.1 <- rbind(mir.1,mir.2)
 
 #pedigree visualization plots
-bmr.plot <- subset(all_families1,all_families1$samp=="BMR_2017"|all_families1$samp=="BMR_2018")
-ocq.plot <- subset(all_families1,all_families1$samp == "OCQ_2018")
-che.plot <- subset(all_families1,all_families1$samp == "PR_2018")
+mir.plot <- subset(all_families1,all_families1$samp=="MIR_2017")
+man.plot <- subset(all_families1,all_families1$samp == "MAN_2019")
 tiff(filename = "Figures/Pedigree_plots.tiff",width = 10,height = 8,units = "in",res = 200)
 par(mfrow=c(1,2))
-pedigree.plot(bmr.plot,title = "Lower Black Mallard River")
-pedigree.plot(ocq.plot,title = "Ocqueoc River")
-pedigree.plot(che.plot)
+pedigree.plot(mir,title = "Middle River")
+pedigree.plot(man,title = "Manistee River")
 dev.off()
 
 ##bayesmix figure

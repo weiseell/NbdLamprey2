@@ -1,0 +1,36 @@
+Output from NeEstimator v2.1
+Starting time: Wed Jul  7 14:26:41 2021
+Input File: "BEINeestimator_2019_age1.txt"
+
+Number of Loci = 3012
+
+LD mating model: Random
+
+(Symbol "No S*" in Frequency means that NO Singleton Alleles are accepted.)
+
+Population     1 [PM_BEI_001]  (Number of Individuals = 80)
+****************
+--------------------------------------------------------------
+Lowest Allele Frequency Used     0.050       No S*         0+
+--------------------------------------------------------------
+
+LINKAGE DISEQUILIBRIUM METHOD
+
+Harmonic Mean Sample Size =       73.3        79.0        78.6
+Independent Comparisons =     204619     2659388     3084522
+OverAll r^2 =                 0.018668    0.582891    0.533023
+Expected r^2 Sample =         0.013478    0.013173    0.013257
+Estimated Ne^ =                   62.1         0.3         0.3
+
+95% CIs for Ne^
+* Parametric                      60.7         0.3         0.3
+                                  63.5         0.3         0.3
+
+* JackKnife on Samples            48.7         0.0         0.0
+                                  82.1         1.0         1.1
+
+**************************************************************
+
+Ending time: Wed Jul  7 14:27:43 2021
+-------------------------------------
+

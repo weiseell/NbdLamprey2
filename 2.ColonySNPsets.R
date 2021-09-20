@@ -16,9 +16,9 @@ source("Homebrew/colonydat_create.R")
 #also want to maximize MAF and coverage for selected SNPs
 #prefilter for Rapture tag SNPs and minimum MAF of 0.05
 prefilter <- SNPsumm %>% 
-  filter(target != "NonTarget") %>% 
-  filter(MAF > 0.05)
-Col_select <- COLONY_filter(prefilter,window = 500000,pGT_min = 0.8,MAF_min = 0.05)
+  #filter(target != "NonTarget") %>% 
+  filter(MAF > 0.03 & pGT > 0.5)
+Col_select <- COLONY_filter(prefilter,window = 500000,pGT_min = 0.5,MAF_min = 0.03)
 #a few summary histograms to look at the SNP set
 hist(Col_select$MAF,xlim = c(0,0.5))
 hist(Col_select$pGT)
@@ -44,7 +44,7 @@ markers <- marker_create(SNPs,cod = 0,gte = 0.02,ote = 0.001)
 #writing COLONY files
 #Note: file appends
 pops <- c("BAD","BEI","BET","BRL","CAT","CHE","EAG","FOR","MAI","MAN","MIR","MIS","MUS","OCQ","STE","SWN","TAQ","TWO")
-i <- 3
+i <- 1
 for (i in 1:length(pops)) {
   tmp_col <- col_format[grep(pattern = pops[i],x = col_format$id),]
   colonydat_create(moms = NA,dads = NA,kids = tmp_col,markers = markers,update.alfs = 0,spp.type = 2,inbreeding = 0,

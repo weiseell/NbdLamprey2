@@ -1,7 +1,7 @@
 #Family Diagrams for all locations
 
 #load libraries
-
+library(tidyverse)
 #load functions
 source("Homebrew/family.plot.R")
 source("Homebrew/multiplot.R")
@@ -10,10 +10,9 @@ source("Homebrew/Ns_calc.R")
 Nb_Ns <- read.table("Output/genetic.estimates.txt",header = T,sep = "\t")
 lengths <- read.table("AgingModels/lw_2019_locations_081220.txt",header = T,sep = "\t")
 colnames(lengths) <- c("Sample_number","OffspringID","Year_collect","Length","Weight")
-#remove BMR line from Chapter 1 data
-Nb_Ns <- Nb_Ns[-4,]
-Nb_Ns <- Nb_Ns[1:18,]
-Nb_Ns <- Nb_Ns[,-19]
+
+#remove Grand River from length data since it was not sequenced
+
 #make vectors of locs and plotnames
 locs <- Nb_Ns$Pop
 plotnames <- c("Bad River",
@@ -36,8 +35,8 @@ plotnames <- c("Bad River",
                "Two-Hearted River")
 names(plotnames) <- locs
 #loop to generate pedigree plots
-tiff(filename = "Figures/FamilyPlots.tiff",height = 9,width = 12,units = "in",res = 200)
-par(mfrow = c(3,6),mai = c(0.3, 0.3, 0.5, 0.5))
+tiff(filename = "Figures/FamilyPlots.tiff",height = 15,width = 12,units = "in",res = 400)
+par(mfrow = c(5,4),mai = c(0.3, 0.3, 0.5, 0.5))
 for (i in 1:length(locs)) {
   #read in file
   tmp <- readLines(paste0("SoftwareOutput/",locs[i],".Output.data.BestCluster"))
@@ -87,13 +86,13 @@ for (i in 1:length(locs)) {
       ggtitle(plotnames[i])
   }
 }
-tiff(filename = "Figures/LengthBoxPlots.tiff",height = 9,width = 18,units = "in",res = 200)
-multiplot(cols = 6,boxplots[[1]],boxplots[[2]],boxplots[[3]],
-          boxplots[[4]],boxplots[[5]],boxplots[[6]],
-          boxplots[[7]],boxplots[[8]],boxplots[[9]],
-          boxplots[[10]],boxplots[[11]],boxplots[[12]],
-          boxplots[[13]],boxplots[[14]],boxplots[[15]],
-          boxplots[[16]],boxplots[[17]],boxplots[[18]])
+tiff(filename = "Figures/LengthBoxPlots.tiff",height = 12,width = 15,units = "in",res = 200)
+multiplot(cols = 4,boxplots[[1]],boxplots[[5]],boxplots[[9]],
+          boxplots[[13]],boxplots[[2]],boxplots[[6]],
+          boxplots[[10]],boxplots[[14]],boxplots[[3]],
+          boxplots[[7]],boxplots[[11]],boxplots[[15]],
+          boxplots[[4]],boxplots[[8]],boxplots[[12]],
+          boxplots[[16]])
 dev.off()
 
 #loop to generate Ns accumulation curves
@@ -118,6 +117,7 @@ for (i in 1:length(locs)) {
   #isolating data to plot
   df2 <- data.frame(sites=Ns_tmp[[1]]$sites,richness=Ns_tmp[[1]]$richness,sd=Ns_tmp[[1]]$sd,stringsAsFactors = F)
   reps <- as.data.frame(Ns_tmp[[1]]$perm)
+  reps <- cbind(df2$sites,reps)
   reps1 <- as.data.frame(reps[seq(1, nrow(reps), 1),])
   reps1 <- reps1 %>% 
     mutate(sites=seq(1, nrow(reps), 1)) %>% 
@@ -130,21 +130,22 @@ for (i in 1:length(locs)) {
     geom_line()+
     geom_boxplot(data = reps1,aes(group=sites),outlier.shape = NA)+
     geom_hline(yintercept=Ns_tmp[[2]]$chao,col = "darkred")+
-    #geom_text(data=data.frame(x=0,y=Ns_tmp[[2]]$chao), aes(x, y), label=paste("Chao = ",round(Ns_tmp[[2]]$chao,digits = 2)),hjust=0, vjust=1.5,size = 3)+
+    #geom_text(data=data.frame(x=0,y=Ns_tmp[[2]]$chao), aes(x, y), label=paste("Chao = ",round(Ns_tmp[[2]]$chao,digits = 2)),hjust=0, vjust=-1,size = 3)+
     geom_hline(yintercept=Ns_tmp[[2]]$jack1,col = "darkblue")+
     #geom_text(data=data.frame(x=0,y=Ns_tmp[[2]]$jack1), aes(x, y), label=paste("Jackknife = ",round(Ns_tmp[[2]]$jack1,digits = 2)),hjust=0, vjust=1.5,size = 3)+
     xlab("Number of offspring sampled")+
     ylab("Number of parent genotypes")+
+    ylim(0,max(Ns_tmp[[2]]$chao,Ns_tmp[[2]]$jack1)+5)+
     ggtitle(plotnames[i])
   
   
 }
 
-tiff(filename = "Figures/NsAccumPlots.tiff",height = 9,width = 14,units = "in",res = 200)
-multiplot(cols = 5,Nsplots[[1]],Nsplots[[2]],Nsplots[[3]],
-          Nsplots[[4]],Nsplots[[5]],Nsplots[[6]],
-          Nsplots[[7]],Nsplots[[8]],Nsplots[[9]],
-          Nsplots[[10]],Nsplots[[11]],Nsplots[[12]],
-          Nsplots[[13]],Nsplots[[14]],Nsplots[[15]],
-          Nsplots[[16]],Nsplots[[17]],Nsplots[[18]])
+tiff(filename = "Figures/NsAccumPlots.tiff",height = 14,width = 9,units = "in",res = 400)
+multiplot(cols = 3,Nsplots[[1]],Nsplots[[4]],Nsplots[[7]],
+          Nsplots[[10]],Nsplots[[13]],Nsplots[[16]],
+          Nsplots[[2]],Nsplots[[5]],Nsplots[[8]],
+          Nsplots[[11]],Nsplots[[14]],Nsplots[[17]],
+          Nsplots[[3]],Nsplots[[6]],Nsplots[[9]],
+          Nsplots[[12]],Nsplots[[15]],Nsplots[[18]])
 dev.off()

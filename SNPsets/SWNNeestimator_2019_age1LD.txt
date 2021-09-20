@@ -1,0 +1,36 @@
+Output from NeEstimator v2.1
+Starting time: Wed Jul  7 14:57:50 2021
+Input File: "SWNNeestimator_2019_age1.txt"
+
+Number of Loci = 2659
+
+LD mating model: Random
+
+(Symbol "No S*" in Frequency means that NO Singleton Alleles are accepted.)
+
+Population     1 [PM_SWN_001]  (Number of Individuals = 39)
+****************
+--------------------------------------------------------------
+Lowest Allele Frequency Used     0.050       No S*         0+
+--------------------------------------------------------------
+
+LINKAGE DISEQUILIBRIUM METHOD
+
+Harmonic Mean Sample Size =       27.1        29.9        28.2
+Independent Comparisons =    2641484     2680447     3449784
+OverAll r^2 =                 0.118654    0.116433    0.100681
+Expected r^2 Sample =         0.036004    0.034532    0.034635
+Estimated Ne^ =                    1.9         1.9         2.3
+
+95% CIs for Ne^
+* Parametric                       1.9         1.9         2.3
+                                   1.9         1.9         2.3
+
+* JackKnife on Samples             1.7         1.7         1.9
+                                   2.0         2.1         2.9
+
+**************************************************************
+
+Ending time: Wed Jul  7 14:58:37 2021
+-------------------------------------
+
