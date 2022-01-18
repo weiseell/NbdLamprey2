@@ -8,13 +8,11 @@ source("Homebrew/multiplot.R")
 source("Homebrew/Ns_calc.R")
 #load Nb data and length data for plot annotation
 Nb_Ns <- read.table("Output/genetic.estimates.txt",header = T,sep = "\t")
-lengths <- read.table("AgingModels/lw_2019_locations_081220.txt",header = T,sep = "\t")
-colnames(lengths) <- c("Sample_number","OffspringID","Year_collect","Length","Weight")
+load("Summaries/Alllocs_cohorts.rda")
 
 #remove Grand River from length data since it was not sequenced
-
 #make vectors of locs and plotnames
-locs <- Nb_Ns$Pop
+locs <- unique(alllocs_cohorts$loc)
 plotnames <- c("Bad River",
                "Betsie River",
                "Betsy River",
@@ -72,9 +70,9 @@ for (i in 1:length(locs)) {
   tmp1 <- tmp1[-1,]
   
   #combine family data with length data
-  tmp1 <- merge(tmp1,lengths)
+  tmp1 <- merge(tmp1,alllocs_cohorts)
   #remove families with less than 3 individuals
-  tmp1 <- tmp1[tmp1$ClusterIndex %in% names(which(table(tmp1$ClusterIndex)>=3)),]
+  #tmp1 <- tmp1[tmp1$ClusterIndex %in% names(which(table(tmp1$ClusterIndex)>=3)),]
   #check to make sure there's more than one family
   #plot pedigree
   if(length(unique(tmp1$ClusterIndex)) > 1){
@@ -88,11 +86,11 @@ for (i in 1:length(locs)) {
       ggtitle(plotnames[i])
   }
 }
-tiff(filename = "Figures/LengthBoxPlots.tiff",height = 12,width = 15,units = "in",res = 200)
+tiff(filename = "Figures/LengthBoxPlotsNoFamLimit011722.tiff",height = 12,width = 15,units = "in",res = 200)
 multiplot(cols = 4,boxplots[[1]],boxplots[[5]],boxplots[[9]],
           boxplots[[13]],boxplots[[2]],boxplots[[6]],
-          boxplots[[10]],boxplots[[14]],boxplots[[3]],
-          boxplots[[7]],boxplots[[11]],boxplots[[15]],
+          boxplots[[10]],boxplots[[14]],boxplots[[17]],boxplots[[3]],
+          boxplots[[7]],boxplots[[11]],boxplots[[15]],boxplots[[18]],
           boxplots[[4]],boxplots[[8]],boxplots[[12]],
           boxplots[[16]])
 dev.off()

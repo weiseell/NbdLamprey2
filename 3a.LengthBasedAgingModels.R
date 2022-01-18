@@ -10,7 +10,7 @@
 library(tidyverse)
 library(bayesmix)
 library(bmixture)
-
+library(wesanderson)
 #loading homebrew functions
 
 #load in length and weight data
@@ -35,7 +35,7 @@ BDclust <- vector(mode = "list", length = length(samples))
 names(RMclust) <- samples
 names(RMclust_probs) <- samples
 names(BDclust) <- samples
-i <- 14
+i <- 4
 for(i in 1:length(samples)){
   samp_i <- samples[i]
   tmp <- subset(df1, df1$samp == samp_i)
@@ -55,20 +55,19 @@ for(i in 1:length(samples)){
 
   RMclust[[samp_i]] <- post.k
   #BD-MCMC with bmixture
-  bmixt.model <- bmixnorm(len, k = "unknown", iter = 50000, burnin = 10000, k_max = 4)
+  bmixt.model <- bmixnorm(len, k = "unknown", iter = 110000, burnin = 50000,k.max = 4)
   #calculating probabilities
   bmix_vals <- data.frame(kval = bmixt.model$all_k, weight = bmixt.model$all_weights,stringsAsFactors = F)
   props <- bmix_vals %>% group_by(kval) %>% summarise(prop = sum(weight)/sum(bmix_vals$weight))
   BDclust[[samp_i]] <- props
 }
 
-#save(BDclust,file="AgingModels/BDclust_results.rda")
-#save(RMclust,file="AgingModels/RMclust_results.rda")
+save(BDclust,file="AgingModels/BDclust_results.rda")
+save(RMclust,file="AgingModels/RMclust_results.rda")
 ##3. Bayes models for all locations ####
 i <- 1
 samples <- sort(samples)
-bestk <- c(2,1,1,2,2,2,2,1,2,1,1,3,2,2,1,1,2,1,2)
-
+bestk <- c(2,2,2,2,3,2,3,2,2,2,4,3,2,4,1,2,2,2)
 Bmodels <- vector(mode = "list", length = length(samples))
 names(Bmodels) <- samples
 
@@ -111,6 +110,7 @@ Bmodels[["TWO_2019"]] <- Sort(Bmodels[["TWO_2019"]],by = "mu")
 
 i <- 1
 all_locs_Bayes <- data.frame(matrix(ncol=8,nrow = 0))
+#loop for individual cohort assignments using BayesMix
 for (i in 1:length(samples)) {
   samp_i <- samples[i]
   tmp <- subset(df1, df1$samp == samp_i)
@@ -169,16 +169,17 @@ plotnames <- c("Bad River",
                "Tahquamenon River",
                "Two-Hearted River")
 names(plotnames) <- sort(unique(all_locs_Bayes$samp))
+klabels <- data.frame(label = paste0("K = ",bestk), 
+                      samp = sort(unique(all_locs_Bayes$samp)))
 #all_locs_Bayes <- read.table("AgingModels/lw_Bayes_assignments.txt",header = T,sep = "\t")
 
-all_locs_Bayes <- read.table("AgingModels/lw_Bayes_assignments.txt",header = T,sep = "\t")
-
-tiff(filename = "Figures/LengthHistograms.tiff",height = 9,width = 12,units = "in",res = 200)
-ggplot(all_locs_Bayes, aes(x=Length, fill = clust)) +
-  facet_wrap(~samp, scales = "free_y",labeller = labeller(samp=plotnames)) +
+tiff(filename = "Figures/LengthHistogramsBayesMix.tiff",height = 9,width = 12,units = "in",res = 200)
+ggplot(all_locs_Bayes, aes(x=Length)) +
+  facet_wrap(~samp, ncol = 6,scales = "free_y",labeller = labeller(samp=plotnames)) +
   geom_histogram(aes(fill = factor(clust)),bins = 50) +
-  scale_fill_manual(values = wes_palette("IsleofDogs1"),
-                    guide = F)+
+  geom_text(data = klabels,x = 150, y = 0,aes(label = label))+
+  scale_fill_manual(values = wes_palette("Darjeeling2"))+
   labs(x="Length (mm)",y="counts")+
+  ggtitle("Cohort Assignments using length from BayesMix")+
   theme_bw(base_size = 8)
 dev.off()

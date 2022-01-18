@@ -1,13 +1,19 @@
 
-
-
-#generating NeEstimator files for all single-cohort populations
-pops <- c("BAD","BEI","BET","BRL","CAT","CHE","EAG","FOR","MAI","MIS","MUS","OCQ","STE","SWN","TAQ","TWO")
-pops <- c("MAN","MIR")
+library(tidyverse)
+source("Homebrew/match_tags.R")
+source("Homebrew/ld_filter.R")
+source("Homebrew/genepop_create.R")
+source("Homebrew/vcf_genepop.R")
+load("Summaries/SNP_summaries_targets.rda")
+load("Summaries/Alllocs_cohorts.rda")
+SNPsumm <- SNPsumm %>% 
+  select(ID,CHROM,POS,target)
+#generating NeEstimator files for all populations
+pops <- unique(alllocs_cohorts$loc)
 for (i in 1:length(pops)) {
   print(i)
   pop <- pops[i]
-  gts <- read.table(paste0("Input/",pop,"_GTs.GT.FORMAT"),header = T,sep = "\t",stringsAsFactors = F)
+  gts <- read.table(paste0("Input/",pop,"_GT_8X.GT.FORMAT"),header = T,sep = "\t",stringsAsFactors = F)
   gts$ID <- paste0(gts$CHROM,"-",gts$POS)
   MAF <- read.table(paste0("Input/",pop,"_allele.frq"),header = T,sep = "\t",stringsAsFactors = F)
   MAF$ID <- paste(MAF$CHROM,MAF$POS,sep = "-")
@@ -20,12 +26,11 @@ for (i in 1:length(pops)) {
   #calculate percent coverage
   gt_missing <- rowSums(gts == "./.")
   stats$pGT <- (1-(gt_missing/n_indiv))
-  #merge with MAF
+  #merge with MAF and targets
   stats <- merge(stats,MAF)
-  SNPsumm <- match_tags(stats,rapture1)
-  
+  SNPsummtmp <- merge(stats,SNPsumm)
   #select SNPs
-  geno_targets <- SNPsumm[[1]] %>% filter(target != "NonTarget")
+  geno_targets <- SNPsummtmp %>% filter(target != "NonTarget")
   LD_select <- LD_filter(geno_targets)
   #generate a match file for chromosomes and SNPs 
   #ensures that SNPs on the same chromosome are not compared
@@ -37,25 +42,27 @@ for (i in 1:length(pops)) {
     select(CHROM,SNP_name)
   write.table(chrom_file,file = paste0("SNPsets/",pop,"NeEst_chromfile.txt"))
   #save LD SNP set
-  save(LD_select,file = paste0("SNPsets/",pop,"NeEst_SNPset.rda"))
+  save(LD_select,file = paste0("SNPsets/",pop,"_NeEst_SNPset.rda"))
   #merging SNP sets with the corresponding genotype calls
-  #gt_LD <- merge(LD_select,gts)
+  gt_LD <- merge(LD_select,gts)
   #making an NeEstimator file
   #formatting for input
-  #gp_input <- gt_LD %>%
-  #  select(ID,everything()) %>% 
-  #  select(-CHROM:-target) %>% 
-  #  gather(key = "indiv",value = "gt",-ID) %>% 
-  #  rename(SNP=ID)
+  gp_input <- gt_LD %>%
+    select(ID,everything()) %>% 
+    select(-CHROM:-target) %>% 
+    gather(key = "indiv",value = "gt",-ID) %>% 
+    rename(SNP=ID)
   #changing formatting from .vcf to genepop
-  #gp_format <- vcf_genepop(gp_input)
-  #gp_format <- gp_format %>% 
-  #  mutate(indiv1=indiv) %>% 
-  #  separate(indiv1,into = c("spp","pop","num"),sep = "_") %>% 
-  #  select(-spp,-num) %>% 
-  #  gather(key = "SNP",value = "gt",-indiv,-pop)
+  gp_format <- vcf_genepop(gp_input)
+  tmp <- alllocs_cohorts %>% 
+    select(OffspringID,EstAge) %>% 
+    rename(indiv=OffspringID,pop=EstAge)
+  gp_format <- merge(gp_format,tmp)
   
-  #genepop_create(gp_format,output_file = paste0("SNPsets/",pop,"Neestimator_2019_age1.txt"),title = paste(pop,"file for NeEstimator"))
+  gp_format <- gp_format %>% 
+    gather(key = "SNP",value = "gt",-indiv,-pop)
+  
+  genepop_create(gp_format,output_file = paste0("SNPsets/",pop,"Neestimator_2019.txt"),title = paste(pop,"file for NeEstimator"))
 }
 
 
