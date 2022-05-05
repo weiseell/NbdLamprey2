@@ -1,0 +1,62 @@
+Missing data from input file MISNeestimator_2019.txt.
+
+Possible four types of missing data at a locus:
+	1. Genotype contains only zeros or partially scored.
+	2. Genotype has less digits than normal one.
+	3. Genotype has more digits than normal one.
+	4. Genotype contains non-digit character.
+Types 3 and 4 stop the program.
+
+In the table, each row is for an individual with missing data
+(a) If column 'Locus' has only one number, then it is the first
+    locus with missing data and also of highest missing data type.
+(b) If column 'Locus' has 2 numbers, then the first number is
+    the first locus with data missing, and the second number is
+    the first locus that has highest missing data type.
+(c) Genotype column contains the genotype of the locus in case (a)
+    or the second locus in case (b).
+
+Population 1 [PM_MIS_001]
+-----------------------------------------------------------
+Individual       Locus         Genotype     Number of Loci
+                                          with missing data
+       1            4             0000           138
+       2            4             0000           148
+       3            4             0000           153
+       4            4             0000           164
+       5            4             0000           210
+       6            4             0000           130
+       7            4             0000           201
+       8            4             0000           170
+       9            4             0000           229
+      10            4             0000           141
+      11            4             0000           162
+      12            4             0000           232
+      13            4             0000           326
+      14            4             0000           189
+      15            4             0000           181
+      16            4             0000           185
+      17            4             0000           125
+      18            4             0000           112
+      19            4             0000           121
+      20            4             0000           124
+      21            4             0000           145
+      22            4             0000           122
+      23            4             0000           126
+      24            4             0000           107
+      25            2             0000           480
+      26            4             0000           121
+      27            4             0000           127
+      28            4             0000           139
+      29            4             0000           160
+      30            4             0000           153
+      31            4             0000           198
+      32            4             0000           117
+      33            4             0000           107
+      34            4             0000           146
+      35            4             0000           144
+      36            4             0000           165
+      37            4             0000           195
+-----------------------------------------------------------
+Total missing data for population    1:         6193
+

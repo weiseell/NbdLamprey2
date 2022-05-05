@@ -1,0 +1,42 @@
+Output from NeEstimator v2.1
+Starting time: Fri Jan 14 20:09:39 2022
+Input File: "EAGNeestimator_2019.txt"
+
+Number of Loci = 2990
+
+Non-polymorphic loci:    24,   158,   182,   265,   439,   481,   497,   557,
+          644,   656,   828,   885,   886,   967,  1035,  1220,  1250,  1397,
+         1440,  1454,  1640,  1746,  1832,  1945,  1952,  1966,  2064,  2120,
+         2244,  2299,  2429,  2460,  2622,  2765,  2930,  2938,  2956,  2985
+Total non-polymorphic = 38
+
+LD mating model: Random
+
+(Symbol "No S*" in Frequency means that NO Singleton Alleles are accepted.)
+
+Population     1 [PM_EAG_001]  (Number of Individuals = 21)
+****************
+--------------------------------------------------------------
+Lowest Allele Frequency Used     0.050       No S*         0+
+--------------------------------------------------------------
+
+LINKAGE DISEQUILIBRIUM METHOD
+
+Harmonic Mean Sample Size =       20.4        20.5        20.3
+Independent Comparisons =    2283838     2567335     3067817
+OverAll r^2 =                 0.675157    0.667200    0.604327
+Expected r^2 Sample =         0.057197    0.056637    0.057198
+Estimated Ne^ =                    0.2         0.3         0.3
+
+95% CIs for Ne^
+* Parametric                       0.2         0.3         0.3
+                                   0.2         0.3         0.3
+
+* JackKnife on Samples             0.2         0.2         0.3
+                                   0.3         0.3         0.3
+
+**************************************************************
+
+Ending time: Fri Jan 14 20:10:12 2022
+-------------------------------------
+

@@ -1,0 +1,24 @@
+Output from NeEstimator v2.1
+Starting time: Fri Jan 14 16:35:42 2022
+Input File: "TAQNeestimator_2019.txt"
+
+Number of Loci = 2982
+
+
+Mating Model: Random
+
+Lowest allele frequencies used, ordered in each population:
+    0.0500     No S*    0.0000
+("No S*": No Singleton Allele is accepted.)
+Up to 17 righmost characters can be shown for population names.
+---------------------------------------------------------------------------------------------------------------------------------
+Population #   Samp  Crit.  Weighted      #Indep.    r^2     Exp(r^2)       Ne^                 CIs for Ne^
+then :Name     Size  Value  H. Mean       Alleles            Sample                    Parametric       Jackknife Samp  (Eff.df)
+---------------------------------------------------------------------------------------------------------------------------------
+1:PM_TAQ_001    92  0.0500     75.5     1575214  0.018095  0.011730       50.2      49.9      50.5      37.6      69.7       730
+                     No S*     84.8     3498796  0.016742  0.011626       63.0      62.7      63.3      48.3      85.5      1105
+                    0.0000     81.6     4224610  0.016046  0.011652       73.7      73.4      74.1      57.0      99.5      1430
+
+Ending time: Fri Jan 14 16:37:28 2022
+-------------------------------------
+

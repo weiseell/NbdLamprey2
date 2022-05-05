@@ -1,0 +1,45 @@
+Output from NeEstimator v2.1
+Starting time: Fri Jan 14 20:11:38 2022
+Input File: "CATNeestimator_2019.txt"
+
+Number of Loci = 3010
+
+Non-polymorphic loci:     4,     6,    48,    80,   135,   148,   180,   249,
+          296,   373,   423,   476,   542,   558,   562,   593,   598,   668,
+          681,   701,   745,   842,   874,   886,  1000,  1260,  1265,  1286,
+         1316,  1501,  1548,  1555,  1583,  1628,  1677,  1685,  1733,  1769,
+         1822,  1864,  1926,  1937,  2003,  2064,  2065,  2083,  2088,  2139,
+         2145,  2405,  2445,  2529,  2535,  2540,  2573,  2605,  2700,  2708,
+         2789,  2920,  2924,  2957,  2969,  2991,  3007
+Total non-polymorphic = 65
+
+LD mating model: Random
+
+(Symbol "No S*" in Frequency means that NO Singleton Alleles are accepted.)
+
+Population     1 [PM_CAT_001]  (Number of Individuals = 240)
+****************
+--------------------------------------------------------------
+Lowest Allele Frequency Used     0.050       No S*         0+
+--------------------------------------------------------------
+
+LINKAGE DISEQUILIBRIUM METHOD
+
+Harmonic Mean Sample Size =      193.7       222.0       214.0
+Independent Comparisons =     942962     3665666     4304053
+OverAll r^2 =                 0.014112    0.011330    0.010615
+Expected r^2 Sample =         0.004540    0.004415    0.004439
+Estimated Ne^ =                   32.6        46.0        51.8
+
+95% CIs for Ne^
+* Parametric                      32.5        45.9        51.7
+                                  32.8        46.2        51.9
+
+* JackKnife on Samples            28.7        41.5        46.7
+                                  37.0        51.1        57.5
+
+**************************************************************
+
+Ending time: Fri Jan 14 20:15:37 2022
+-------------------------------------
+

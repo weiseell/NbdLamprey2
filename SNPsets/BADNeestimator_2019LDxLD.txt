@@ -1,0 +1,24 @@
+Output from NeEstimator v2.1
+Starting time: Fri Jan 14 20:20:24 2022
+Input File: "BADNeestimator_2019.txt"
+
+Number of Loci = 2810
+
+
+Mating Model: Random
+
+Lowest allele frequencies used, ordered in each population:
+    0.0500     No S*    0.0000
+("No S*": No Singleton Allele is accepted.)
+Up to 17 righmost characters can be shown for population names.
+---------------------------------------------------------------------------------------------------------------------------------
+Population #   Samp  Crit.  Weighted      #Indep.    r^2     Exp(r^2)       Ne^                 CIs for Ne^
+then :Name     Size  Value  H. Mean       Alleles            Sample                    Parametric       Jackknife Samp  (Eff.df)
+---------------------------------------------------------------------------------------------------------------------------------
+1:PM_BAD_001    37  0.0500     24.4     2364653  0.098469  0.038353        2.6       2.6       2.6       2.1       3.1       610
+                     No S*     28.7     2754599  0.091969  0.035522        2.7       2.7       2.7       2.3       3.3       585
+                    0.0000     25.9     3285003  0.087127  0.036576        3.0       3.0       3.1       2.5       4.9       578
+
+Ending time: Fri Jan 14 20:21:07 2022
+-------------------------------------
+

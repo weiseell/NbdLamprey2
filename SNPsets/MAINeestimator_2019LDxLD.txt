@@ -1,0 +1,24 @@
+Output from NeEstimator v2.1
+Starting time: Tue Feb 22 15:15:30 2022
+Input File: "MAINeestimator_2019.txt"
+
+Number of Loci = 2883
+
+
+Mating Model: Random
+
+Lowest allele frequencies used, ordered in each population:
+    0.0500     No S*    0.0000
+("No S*": No Singleton Allele is accepted.)
+Up to 17 righmost characters can be shown for population names.
+---------------------------------------------------------------------------------------------------------------------------------
+Population #   Samp  Crit.  Weighted      #Indep.    r^2     Exp(r^2)       Ne^                 CIs for Ne^
+then :Name     Size  Value  H. Mean       Alleles            Sample                    Parametric       Jackknife Samp  (Eff.df)
+---------------------------------------------------------------------------------------------------------------------------------
+1:PM_MAI_001    29  0.0500     24.5     2734041  0.076212  0.041637        6.6       6.6       6.7       3.9       9.8       507
+                     No S*     26.1     3158697  0.073005  0.040963        7.4       7.4       7.5       4.7      11.0       490
+                    0.0000     25.1     3883042  0.068665  0.041171        9.1       9.1       9.2       6.0      13.7       495
+
+Ending time: Tue Feb 22 15:16:14 2022
+-------------------------------------
+

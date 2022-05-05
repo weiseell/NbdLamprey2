@@ -1,0 +1,46 @@
+Output from NeEstimator v2.1
+Starting time: Tue Feb 22 15:15:30 2022
+Input File: "MAINeestimator_2019.txt"
+
+Number of Loci = 2883
+
+Non-polymorphic loci:     4,     5,     6,    75,    89,   125,   126,   168,
+          191,   211,   269,   281,   311,   361,   367,   383,   385,   390,
+          396,   427,   454,   537,   570,   642,   696,   800,   812,   835,
+          844,   845,   854,   911,   919,   965,   970,   974,   980,  1131,
+         1227,  1305,  1389,  1416,  1455,  1462,  1595,  1612,  1732,  1770,
+         1826,  1877,  2004,  2019,  2042,  2054,  2076,  2083,  2132,  2158,
+         2218,  2351,  2363,  2380,  2386,  2403,  2451,  2509,  2622,  2650,
+         2716,  2748,  2756,  2760,  2789,  2840,  2842,  2860,  2864,  2879
+Total non-polymorphic = 78
+
+LD mating model: Random
+
+(Symbol "No S*" in Frequency means that NO Singleton Alleles are accepted.)
+
+Population     1 [PM_MAI_001]  (Number of Individuals = 29)
+****************
+--------------------------------------------------------------
+Lowest Allele Frequency Used     0.050       No S*         0+
+--------------------------------------------------------------
+
+LINKAGE DISEQUILIBRIUM METHOD
+
+Harmonic Mean Sample Size =       24.5        26.1        25.1
+Independent Comparisons =    2734041     3158697     3883042
+OverAll r^2 =                 0.076212    0.073005    0.068665
+Expected r^2 Sample =         0.041637    0.040963    0.041171
+Estimated Ne^ =                    6.6         7.4         9.1
+
+95% CIs for Ne^
+* Parametric                       6.6         7.4         9.1
+                                   6.7         7.5         9.2
+
+* JackKnife on Samples             3.9         4.7         6.0
+                                   9.8        11.0        13.7
+
+**************************************************************
+
+Ending time: Tue Feb 22 15:16:14 2022
+-------------------------------------
+

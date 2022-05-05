@@ -1,0 +1,105 @@
+Missing data from input file BEINeestimator_2019.txt.
+
+Possible four types of missing data at a locus:
+	1. Genotype contains only zeros or partially scored.
+	2. Genotype has less digits than normal one.
+	3. Genotype has more digits than normal one.
+	4. Genotype contains non-digit character.
+Types 3 and 4 stop the program.
+
+In the table, each row is for an individual with missing data
+(a) If column 'Locus' has only one number, then it is the first
+    locus with missing data and also of highest missing data type.
+(b) If column 'Locus' has 2 numbers, then the first number is
+    the first locus with data missing, and the second number is
+    the first locus that has highest missing data type.
+(c) Genotype column contains the genotype of the locus in case (a)
+    or the second locus in case (b).
+
+Population 1 [PM_BEI_001]
+-----------------------------------------------------------
+Individual       Locus         Genotype     Number of Loci
+                                          with missing data
+       1           36             0000            61
+       2           36             0000            23
+       3           36             0000            39
+       4           25             0000           104
+       5           36             0000            39
+       6           36             0000            41
+       7           36             0000            35
+       8           36             0000            39
+       9           36             0000            25
+      10           36             0000            32
+      11            1             0000          1324
+      12           36             0000            39
+      13           36             0000            41
+      14           36             0000            47
+      15           62             0000            23
+      16          465             0000            16
+      17          465             0000            15
+      18            2             0000          1049
+      19           36             0000           104
+      20          167             0000            18
+      21           36             0000            37
+      22           36             0000            26
+      23           36             0000            21
+      24           36             0000            37
+      25           36             0000            31
+      26           36             0000            25
+      27           36             0000            31
+      28           36             0000            53
+      29           36             0000            19
+      30          167             0000            23
+      31           36             0000            22
+      32           36             0000            29
+      33           36             0000            43
+      34           36             0000            36
+      35           36             0000            21
+      36           36             0000            55
+      37           25             0000            90
+      38           36             0000            24
+      39           36             0000            27
+      40           36             0000            31
+      41           36             0000            34
+      42           36             0000            29
+      43          135             0000            25
+      44           36             0000            28
+      45           36             0000            29
+      46           36             0000            31
+      47           36             0000            80
+      48           36             0000            58
+      49           36             0000            37
+      50           36             0000            42
+      51           36             0000            40
+      52           36             0000            60
+      53           36             0000            49
+      54           36             0000            68
+      55           36             0000            81
+      56           36             0000            36
+      57           36             0000            33
+      58           25             0000            40
+      59           36             0000            57
+      60           36             0000            43
+      61           12             0000           146
+      62           12             0000            54
+      63           36             0000            32
+      64           36             0000            30
+      65           36             0000            30
+      66           36             0000            36
+      67           36             0000            24
+      68           36             0000            30
+      69           62             0000            21
+      70          167             0000            27
+      71           36             0000            26
+      72          167             0000            20
+      73           36             0000            28
+      74           36             0000            20
+      75           36             0000            34
+      76           36             0000            28
+      77           25             0000           125
+      78           36             0000            31
+      79           36             0000            32
+      80           36             0000            24
+-----------------------------------------------------------
+Total missing data for population    1:         5493
+

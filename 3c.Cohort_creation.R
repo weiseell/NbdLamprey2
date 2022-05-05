@@ -43,6 +43,54 @@ df_Classsum <- df %>%
 
 write.table(df,file = "AgingModels/lw_cohorts.txt",append = F,quote = F,sep = "\t",row.names = F)
 
+#loop to generate boxplots for all locations
+boxplots_fullsib <- list()
+i <- 1
+plotn <- 0
+alllocs_cohorts$fullsib <- paste(alllocs_cohorts$MotherID,alllocs_cohorts$FatherID,sep = "_")
+
+for (i in 1:length(locs)) {
+  loc <- locs[i]
+  tmp <- subset(alllocs_cohorts,alllocs_cohorts$loc == locs[i])
+  #check to make sure there's more than one family
+  #tmp <- tmp[tmp$fullsib %in% names(which(table(tmp$fullsib)>=3)),]
+  #plot pedigree
+  if(length(unique(tmp$fullsib)) > 1){
+    plotn <- plotn + 1
+    boxplots_fullsib[[plotn]] <- ggplot(tmp,aes(x=fullsib,group=fullsib,y=Length))+
+      geom_boxplot(alpha=0.3,show.legend = F)+
+      geom_jitter(aes(color = as.character(Class)),position=position_jitter(0.1))+
+      scale_color_manual(values = wes_palette("Darjeeling2"))+
+      theme_bw()+
+      #scale_fill_gradient(low="red", high="white",name = "Cluster \n Likelihood")+
+      xlab("Cluster")+
+      ylab("Length (mm)")+
+      ggtitle(plotnames[i])+
+      theme(axis.text.x = element_text(angle = 90),
+            legend.position = "none")
+  }
+}
+pdf(file = "Figures/BoxplotsFullSib012022.pdf")
+boxplots_fullsib[[1]]
+boxplots_fullsib[[2]]
+boxplots_fullsib[[3]]
+boxplots_fullsib[[4]]
+boxplots_fullsib[[5]]
+boxplots_fullsib[[6]]
+boxplots_fullsib[[7]]
+boxplots_fullsib[[8]]
+boxplots_fullsib[[9]]
+boxplots_fullsib[[10]]
+boxplots_fullsib[[11]]
+boxplots_fullsib[[12]]
+boxplots_fullsib[[13]]
+boxplots_fullsib[[14]]
+boxplots_fullsib[[15]]
+boxplots_fullsib[[16]]
+boxplots_fullsib[[17]]
+boxplots_fullsib[[18]]
+dev.off()
+
 ##Comparing Length assignments and Colony family structure for each location
 #BAD - One cohort
 bad.1 <- subset(df,df$loc == "BAD" & df$Class == 1)
@@ -59,7 +107,7 @@ ggplot(bad,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 bad$EstAge <- "BAD_age1"
-#BEI - maybe 2? Hard to tell
+#BEI - one, length range is very narrow
 bei.1 <- subset(df,df$loc == "BEI" & df$Class == 1)
 bei.2 <- subset(df,df$loc == "BEI" & df$Class == 2)
 bei <- rbind(bei.1,bei.2)
@@ -75,7 +123,7 @@ ggplot(bei,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
   scale_fill_gradient(low = "red",high = "white")
 bei$EstAge <- "BEI_age1"
 
-#BET - maybe 2? Hard to tell
+#BET - one, length range is very narrow
 bet.1 <- subset(df,df$loc == "BET" & df$Class == 1)
 bet.2 <- subset(df,df$loc == "BET" & df$Class == 2)
 bet <- rbind(bet.1,bet.2)
@@ -185,7 +233,8 @@ ggplot(mai,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
   scale_fill_gradient(low = "red",high = "white")
 mai$EstAge <- "MAI_age1"
 
-#MAN - looks like it could be two clusters, lots of overlap
+#MAN -  lots of overlap
+#one cohort, length range is very narrow
 man.1 <- subset(df,df$loc == "MAN" & df$Class == 1)
 man.2 <- subset(df,df$loc == "MAN" & df$Class == 2)
 man <- rbind(man.1,man.2)
@@ -351,6 +400,9 @@ alllocs_cohorts <- rbind(bad,bei,bet,brl,cat,
       ocq2018,ocq2019,ste,swn,taq,
       two2017,two2018)
 save(alllocs_cohorts,file = "Summaries/Alllocs_cohorts.rda")
+
+##Make figures combining all locations
+alllocs_cohorts$ClusterIndex <- factor(alllocs_cohorts$ClusterIndex)
 ##make cohort colony files for all locations with multiple cohorts
 #mir
 #load genotypes

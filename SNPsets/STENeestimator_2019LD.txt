@@ -1,0 +1,47 @@
+Output from NeEstimator v2.1
+Starting time: Fri Jan 14 16:42:20 2022
+Input File: "STENeestimator_2019.txt"
+
+Number of Loci = 2985
+
+Non-polymorphic loci:     4,    14,    15,    26,    71,    98,   108,   127,
+          133,   136,   143,   248,   306,   315,   327,   393,   436,   471,
+          477,   479,   530,   535,   555,   557,   607,   658,   690,   791,
+          830,   839,   846,   972,   979,  1000,  1009,  1115,  1198,  1224,
+         1272,  1274,  1281,  1404,  1437,  1487,  1529,  1534,  1541,  1653,
+         1688,  1694,  1753,  1809,  1834,  1839,  1849,  1885,  1915,  1916,
+         1946,  1951,  1972,  2037,  2048,  2049,  2126,  2151,  2386,  2387,
+         2408,  2465,  2492,  2507,  2523,  2668,  2705,  2711,  2766,  2788,
+         2790,  2860,  2903,  2948,  2953,  2961,  2965,  2973,  2980
+Total non-polymorphic = 87
+
+LD mating model: Random
+
+(Symbol "No S*" in Frequency means that NO Singleton Alleles are accepted.)
+
+Population     1 [PM_STE_001]  (Number of Individuals = 105)
+****************
+--------------------------------------------------------------
+Lowest Allele Frequency Used     0.050       No S*         0+
+--------------------------------------------------------------
+
+LINKAGE DISEQUILIBRIUM METHOD
+
+Harmonic Mean Sample Size =       74.4        91.8        82.6
+Independent Comparisons =    1847885     3637974     4146677
+OverAll r^2 =                 0.045517    0.041217    0.039297
+Expected r^2 Sample =         0.011061    0.010607    0.010780
+Estimated Ne^ =                    6.7         8.1         9.0
+
+95% CIs for Ne^
+* Parametric                       6.6         8.1         9.0
+                                   6.7         8.1         9.0
+
+* JackKnife on Samples             5.3         6.8         7.7
+                                   7.9         9.5        10.3
+
+**************************************************************
+
+Ending time: Fri Jan 14 16:44:26 2022
+-------------------------------------
+

@@ -1,0 +1,45 @@
+Output from NeEstimator v2.1
+Starting time: Fri Jan 14 16:35:42 2022
+Input File: "TAQNeestimator_2019.txt"
+
+Number of Loci = 2982
+
+Non-polymorphic loci:    15,    20,    36,   177,   232,   286,   293,   327,
+          344,   405,   419,   437,   532,   537,   553,   560,   589,   660,
+          665,   728,   863,   919,   928,   931,  1007,  1013,  1088,  1089,
+         1127,  1169,  1183,  1471,  1509,  1530,  1635,  1649,  1658,  1666,
+         1708,  1751,  1868,  1918,  1984,  2012,  2126,  2152,  2171,  2204,
+         2238,  2243,  2380,  2434,  2468,  2516,  2593,  2705,  2708,  2891,
+         2913,  2928,  2938,  2962,  2977
+Total non-polymorphic = 63
+
+LD mating model: Random
+
+(Symbol "No S*" in Frequency means that NO Singleton Alleles are accepted.)
+
+Population     1 [PM_TAQ_001]  (Number of Individuals = 92)
+****************
+--------------------------------------------------------------
+Lowest Allele Frequency Used     0.050       No S*         0+
+--------------------------------------------------------------
+
+LINKAGE DISEQUILIBRIUM METHOD
+
+Harmonic Mean Sample Size =       75.5        84.8        81.6
+Independent Comparisons =    1575214     3498796     4224610
+OverAll r^2 =                 0.018095    0.016742    0.016046
+Expected r^2 Sample =         0.011730    0.011626    0.011652
+Estimated Ne^ =                   50.2        63.0        73.7
+
+95% CIs for Ne^
+* Parametric                      49.9        62.7        73.4
+                                  50.5        63.3        74.1
+
+* JackKnife on Samples            37.6        48.3        57.0
+                                  69.7        85.5        99.5
+
+**************************************************************
+
+Ending time: Fri Jan 14 16:37:28 2022
+-------------------------------------
+

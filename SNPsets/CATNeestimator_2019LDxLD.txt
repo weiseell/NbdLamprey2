@@ -1,0 +1,24 @@
+Output from NeEstimator v2.1
+Starting time: Fri Jan 14 20:11:38 2022
+Input File: "CATNeestimator_2019.txt"
+
+Number of Loci = 3010
+
+
+Mating Model: Random
+
+Lowest allele frequencies used, ordered in each population:
+    0.0500     No S*    0.0000
+("No S*": No Singleton Allele is accepted.)
+Up to 17 righmost characters can be shown for population names.
+---------------------------------------------------------------------------------------------------------------------------------
+Population #   Samp  Crit.  Weighted      #Indep.    r^2     Exp(r^2)       Ne^                 CIs for Ne^
+then :Name     Size  Value  H. Mean       Alleles            Sample                    Parametric       Jackknife Samp  (Eff.df)
+---------------------------------------------------------------------------------------------------------------------------------
+1:PM_CAT_001   240  0.0500    193.7      942962  0.014112  0.004540       32.6      32.5      32.8      28.7      37.0      1205
+                     No S*    222.0     3665666  0.011330  0.004415       46.0      45.9      46.2      41.5      51.1      2061
+                    0.0000    214.0     4304053  0.010615  0.004439       51.8      51.7      51.9      46.7      57.5      2304
+
+Ending time: Fri Jan 14 20:15:37 2022
+-------------------------------------
+

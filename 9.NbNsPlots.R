@@ -32,7 +32,7 @@ plotnames <- c("Bad River",
                "Tahquamenon River",
                "Two-Hearted River")
 names(plotnames) <- locs
-
+alllocs_cohorts$ClusterIndex <- factor(alllocs_cohorts$ClusterIndex)
 #loop to generate pedigree plots
 tiff(filename = "Figures/FamilyPlots.tiff",height = 15,width = 12,units = "in",res = 400)
 par(mfrow = c(5,4),mai = c(0.3, 0.3, 0.5, 0.5))
@@ -58,42 +58,53 @@ boxplots <- list()
 i <- 1
 plotn <- 0
 for (i in 1:length(locs)) {
-  #read in file
-  tmp <- readLines(paste0("SoftwareOutput/",locs[i],".Output.data.BestCluster"))
-  #separate file into usable data frame
-  tmp <- strsplit(tmp,"\\s+")
-  tmp1 <- matrix(unlist(tmp),byrow = T)
-  tmp1 <- tmp1[tmp1 != ""]
-  tmp1 <- matrix(tmp1,ncol = 5,byrow = T)
-  tmp1 <- as.data.frame(tmp1)
-  colnames(tmp1) <- tmp1[1,]
-  tmp1 <- tmp1[-1,]
-  
-  #combine family data with length data
-  tmp1 <- merge(tmp1,alllocs_cohorts)
+  loc <- locs[i]
+  tmp <- subset(alllocs_cohorts,alllocs_cohorts$loc == locs[i])
   #remove families with less than 3 individuals
-  #tmp1 <- tmp1[tmp1$ClusterIndex %in% names(which(table(tmp1$ClusterIndex)>=3)),]
+  tmp1 <- tmp[tmp$ClusterIndex %in% names(which(table(tmp$ClusterIndex)>=3)),]
   #check to make sure there's more than one family
   #plot pedigree
   if(length(unique(tmp1$ClusterIndex)) > 1){
     plotn <- plotn + 1
-    boxplots[[plotn]] <- ggplot(tmp1,aes(x=ClusterIndex,group=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+    boxplots[[plotn]] <- ggplot(tmp1,aes(x=ClusterIndex,group=ClusterIndex,y=Length))+
       geom_boxplot(alpha=0.3,show.legend = F)+
+      geom_jitter(aes(color = as.character(Class)),position=position_jitter(0.1))+
+      scale_color_manual(values = wes_palette("Darjeeling2"))+
       theme_bw()+
-      scale_fill_gradient(low="red", high="white",name = "Cluster \n Likelihood")+
+      #scale_fill_gradient(low="red", high="white",name = "Cluster \n Likelihood")+
       xlab("Cluster")+
       ylab("Length (mm)")+
-      ggtitle(plotnames[i])
+      ggtitle(plotnames[i])+
+      theme(axis.text.x = element_text(angle = 90),
+            legend.position = "none")
   }
 }
-tiff(filename = "Figures/LengthBoxPlotsNoFamLimit011722.tiff",height = 12,width = 15,units = "in",res = 200)
+
+tiff(filename = "Figures/LengthBoxPlots011922.tiff",height = 12,width = 15,units = "in",res = 200)
 multiplot(cols = 4,boxplots[[1]],boxplots[[5]],boxplots[[9]],
           boxplots[[13]],boxplots[[2]],boxplots[[6]],
-          boxplots[[10]],boxplots[[14]],boxplots[[17]],boxplots[[3]],
-          boxplots[[7]],boxplots[[11]],boxplots[[15]],boxplots[[18]],
+          boxplots[[10]],boxplots[[14]],boxplots[[3]],
+          boxplots[[7]],boxplots[[11]],boxplots[[15]],
           boxplots[[4]],boxplots[[8]],boxplots[[12]],
           boxplots[[16]])
 dev.off()
+
+#alternate plot method with  single data frame instead of a loop - doesn't quite work right yet
+alllocs_cohorts1 <- alllocs_cohorts[alllocs_cohorts$ClusterIndex %in% names(which(table(alllocs_cohorts$ClusterIndex)>=3)),]
+alllocs_cohorts1 <- alllocs_cohorts1 %>% 
+  arrange(loc,as.integer(ClusterIndex))
+ggplot(alllocs_cohorts1,aes(x=ClusterIndex,group=ClusterIndex,y=Length))+
+  geom_boxplot(alpha=0.3,show.legend = F)+
+  geom_jitter(aes(color = as.character(Class)),position=position_jitter(0.1))+
+  scale_color_manual(values = wes_palette("Darjeeling2"))+
+  facet_wrap(~loc,scales = "free", nrow = 6)+
+  theme_bw()+
+  #scale_fill_gradient(low="red", high="white",name = "Cluster \n Likelihood")+
+  xlab("Cluster")+
+  ylab("Length (mm)")+
+  ggtitle("Boxplots")+
+  theme(axis.text.x = element_text(angle = 90),
+        legend.position = "none")
 
 #loop to generate Ns accumulation curves
 #calculation loop

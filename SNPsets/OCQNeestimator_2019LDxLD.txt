@@ -1,0 +1,27 @@
+Output from NeEstimator v2.1
+Starting time: Fri Jan 14 16:56:34 2022
+Input File: "OCQNeestimator_2019.txt"
+
+Number of Loci = 2999
+
+
+Mating Model: Random
+
+Lowest allele frequencies used, ordered in each population:
+    0.0500     No S*    0.0000
+("No S*": No Singleton Allele is accepted.)
+Up to 17 righmost characters can be shown for population names.
+---------------------------------------------------------------------------------------------------------------------------------
+Population #   Samp  Crit.  Weighted      #Indep.    r^2     Exp(r^2)       Ne^                 CIs for Ne^
+then :Name     Size  Value  H. Mean       Alleles            Sample                    Parametric       Jackknife Samp  (Eff.df)
+---------------------------------------------------------------------------------------------------------------------------------
+1:PM_OCQ_397    86  0.0500     74.2     1056338  0.015756  0.012667      105.8     104.3     107.3      79.7     150.2      2155
+                     No S*     80.1     2799589  0.015162  0.012492      122.7     121.6     123.9      92.7     174.1      2691
+                    0.0000     79.1     3806152  0.014615  0.012494      155.1     153.6     156.6     117.3     221.1      3906
+2:PM_OCQ_404    35  0.0500     31.5     1017093  0.042531  0.033174       33.4      33.0      33.9      19.2      75.2       451
+                     No S*     32.7     1736166  0.040611  0.032731       40.1      39.7      40.6      24.2      83.8       677
+                    0.0000     32.6     2654099  0.038430  0.032626       55.3      54.6      55.9      33.3     123.0      1013
+
+Ending time: Fri Jan 14 16:58:25 2022
+-------------------------------------
+

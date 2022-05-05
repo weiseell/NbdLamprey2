@@ -1,0 +1,43 @@
+Output from NeEstimator v2.1
+Starting time: Fri Jan 14 20:15:57 2022
+Input File: "BRLNeestimator_2019.txt"
+
+Number of Loci = 2937
+
+Non-polymorphic loci:     4,   123,   211,   266,   307,   371,   494,   538,
+          646,   660,   692,   710,   734,   745,   846,   858,   894,   900,
+          912,   968,   970,   981,   985,  1051,  1136,  1169,  1223,  1251,
+         1258,  1334,  1373,  1409,  1425,  1619,  1666,  1909,  1915,  1955,
+         2042,  2202,  2343,  2365,  2425,  2640,  2668,  2860,  2888,  2919
+Total non-polymorphic = 48
+
+LD mating model: Random
+
+(Symbol "No S*" in Frequency means that NO Singleton Alleles are accepted.)
+
+Population     1 [PM_BRL_001]  (Number of Individuals = 33)
+****************
+--------------------------------------------------------------
+Lowest Allele Frequency Used     0.050       No S*         0+
+--------------------------------------------------------------
+
+LINKAGE DISEQUILIBRIUM METHOD
+
+Harmonic Mean Sample Size =       28.4        30.7        29.9
+Independent Comparisons =    2032886     2955646     4117782
+OverAll r^2 =                 0.039119    0.038784    0.037957
+Expected r^2 Sample =         0.034679    0.034354    0.034351
+Estimated Ne^ =                   67.6        73.1        83.7
+
+95% CIs for Ne^
+* Parametric                      66.5        72.1        82.5
+                                  68.8        74.2        85.0
+
+* JackKnife on Samples            37.3        40.9        48.7
+                                 218.3       221.1       230.1
+
+**************************************************************
+
+Ending time: Fri Jan 14 20:16:40 2022
+-------------------------------------
+

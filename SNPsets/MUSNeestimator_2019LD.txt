@@ -1,0 +1,43 @@
+Output from NeEstimator v2.1
+Starting time: Fri Jan 14 17:09:39 2022
+Input File: "MUSNeestimator_2019.txt"
+
+Number of Loci = 2985
+
+Non-polymorphic loci:     4,    71,   229,   368,   403,   418,   505,   548,
+          707,   864,   883,   903,   932,  1006,  1008,  1089,  1169,  1273,
+         1328,  1352,  1437,  1474,  1640,  1649,  1663,  1671,  1712,  1875,
+         1888,  2051,  2073,  2131,  2244,  2480,  2541,  2599,  2680,  2804,
+         2836,  2898,  2899,  2904,  2918,  2933,  2963,  2967,  2981
+Total non-polymorphic = 47
+
+LD mating model: Random
+
+(Symbol "No S*" in Frequency means that NO Singleton Alleles are accepted.)
+
+Population     1 [PM_MUS_001]  (Number of Individuals = 53)
+****************
+--------------------------------------------------------------
+Lowest Allele Frequency Used     0.050       No S*         0+
+--------------------------------------------------------------
+
+LINKAGE DISEQUILIBRIUM METHOD
+
+Harmonic Mean Sample Size =       47.4        50.0        49.5
+Independent Comparisons =    1495934     3006380     4278056
+OverAll r^2 =                 0.022018    0.021673    0.021478
+Expected r^2 Sample =         0.020689    0.020522    0.020517
+Estimated Ne^ =                  248.6       287.3       344.6
+
+95% CIs for Ne^
+* Parametric                     239.5       278.9       334.5
+                                 258.3       296.3       355.3
+
+* JackKnife on Samples           172.8       190.4       225.7
+                                 427.8       558.4       697.6
+
+**************************************************************
+
+Ending time: Fri Jan 14 17:10:50 2022
+-------------------------------------
+

@@ -1,0 +1,24 @@
+Output from NeEstimator v2.1
+Starting time: Fri Jan 14 20:17:02 2022
+Input File: "BETNeestimator_2019.txt"
+
+Number of Loci = 3008
+
+
+Mating Model: Random
+
+Lowest allele frequencies used, ordered in each population:
+    0.0500     No S*    0.0000
+("No S*": No Singleton Allele is accepted.)
+Up to 17 righmost characters can be shown for population names.
+---------------------------------------------------------------------------------------------------------------------------------
+Population #   Samp  Crit.  Weighted      #Indep.    r^2     Exp(r^2)       Ne^                 CIs for Ne^
+then :Name     Size  Value  H. Mean       Alleles            Sample                    Parametric       Jackknife Samp  (Eff.df)
+---------------------------------------------------------------------------------------------------------------------------------
+1:PM_BET_001   123  0.0500    105.0     1224080  0.014436  0.008821       57.2      56.8      57.6      45.6      73.2       994
+                     No S*    113.9     3437831  0.013361  0.008703       69.4      69.1      69.7      55.9      88.2      1314
+                    0.0000    110.5     4305001  0.012628  0.008721       83.2      82.8      83.6      66.7     106.6      1565
+
+Ending time: Fri Jan 14 20:19:02 2022
+-------------------------------------
+

@@ -1,0 +1,45 @@
+Output from NeEstimator v2.1
+Starting time: Fri Jan 14 20:17:02 2022
+Input File: "BETNeestimator_2019.txt"
+
+Number of Loci = 3008
+
+Non-polymorphic loci:    80,    93,   179,   225,   232,   474,   509,   540,
+          553,   556,   606,   628,   664,   665,   690,   815,   838,   841,
+          959,  1096,  1177,  1281,  1282,  1359,  1364,  1406,  1448,  1579,
+         1618,  1673,  1711,  1723,  1744,  1773,  2006,  2079,  2084,  2128,
+         2145,  2147,  2154,  2198,  2259,  2264,  2440,  2472,  2496,  2530,
+         2535,  2558,  2582,  2600,  2730,  2765,  2873,  2920,  2954,  2971,
+         2976
+Total non-polymorphic = 59
+
+LD mating model: Random
+
+(Symbol "No S*" in Frequency means that NO Singleton Alleles are accepted.)
+
+Population     1 [PM_BET_001]  (Number of Individuals = 123)
+****************
+--------------------------------------------------------------
+Lowest Allele Frequency Used     0.050       No S*         0+
+--------------------------------------------------------------
+
+LINKAGE DISEQUILIBRIUM METHOD
+
+Harmonic Mean Sample Size =      105.0       113.9       110.5
+Independent Comparisons =    1224080     3437831     4305001
+OverAll r^2 =                 0.014436    0.013361    0.012628
+Expected r^2 Sample =         0.008821    0.008703    0.008721
+Estimated Ne^ =                   57.2        69.4        83.2
+
+95% CIs for Ne^
+* Parametric                      56.8        69.1        82.8
+                                  57.6        69.7        83.6
+
+* JackKnife on Samples            45.6        55.9        66.7
+                                  73.2        88.2       106.6
+
+**************************************************************
+
+Ending time: Fri Jan 14 20:19:02 2022
+-------------------------------------
+
