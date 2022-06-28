@@ -8,7 +8,7 @@ library(tidyverse)
 source("Homebrew/pedigree.plot.R")
 ##reading in data
 load("AgingModels/MclustLW_results.rda")
-load("SNPsets/COLONY_SNPsets_062321.rda")
+
 #load in data
 classes_all <- classes_all %>% 
   rename(OffspringID=Indiv)
@@ -47,11 +47,29 @@ write.table(df,file = "AgingModels/lw_cohorts.txt",append = F,quote = F,sep = "\
 boxplots_fullsib <- list()
 i <- 1
 plotn <- 0
-alllocs_cohorts$fullsib <- paste(alllocs_cohorts$MotherID,alllocs_cohorts$FatherID,sep = "_")
-
+df$fullsib <- paste(df$MotherID,df$FatherID,sep = "_")
+plotnames <- c("Bad River",
+               "Betsie River",
+               "Betsy River",
+               "Brule River",
+               "Cattaraugus River",
+               "Pigeon River",
+               "East Au Gres River",
+               "Ford River",
+               "Manistique River",
+               "Manistee River",
+               "Middle River",
+               "Misery River",
+               "Muskegon River",
+               "Ocqueoc River",
+               "Sterling River",
+               "Swan Creek",
+               "Tahquamenon River",
+               "Two-Hearted River")
+names(plotnames) <- locs
 for (i in 1:length(locs)) {
   loc <- locs[i]
-  tmp <- subset(alllocs_cohorts,alllocs_cohorts$loc == locs[i])
+  tmp <- subset(df,df$loc == locs[i])
   #check to make sure there's more than one family
   #tmp <- tmp[tmp$fullsib %in% names(which(table(tmp$fullsib)>=3)),]
   #plot pedigree
@@ -60,17 +78,17 @@ for (i in 1:length(locs)) {
     boxplots_fullsib[[plotn]] <- ggplot(tmp,aes(x=fullsib,group=fullsib,y=Length))+
       geom_boxplot(alpha=0.3,show.legend = F)+
       geom_jitter(aes(color = as.character(Class)),position=position_jitter(0.1))+
-      scale_color_manual(values = wes_palette("Darjeeling2"))+
+      scale_color_manual(values = wes_palette("IsleofDogs1"))+
       theme_bw()+
       #scale_fill_gradient(low="red", high="white",name = "Cluster \n Likelihood")+
-      xlab("Cluster")+
+      xlab("Full-Sibling Group")+
       ylab("Length (mm)")+
       ggtitle(plotnames[i])+
       theme(axis.text.x = element_text(angle = 90),
             legend.position = "none")
   }
 }
-pdf(file = "Figures/BoxplotsFullSib012022.pdf")
+pdf(file = "Figures/BoxplotsFullSib062022.pdf")
 boxplots_fullsib[[1]]
 boxplots_fullsib[[2]]
 boxplots_fullsib[[3]]
@@ -96,14 +114,14 @@ dev.off()
 bad.1 <- subset(df,df$loc == "BAD" & df$Class == 1)
 bad.2 <- subset(df,df$loc == "BAD" & df$Class == 2)
 bad <- rbind(bad.1,bad.2)
-table(bad$ClusterIndex)
-table(bad.2$ClusterIndex%in%bad.1$ClusterIndex)
-table(bad.1$ClusterIndex%in%bad.2$ClusterIndex)
+table(bad$fullsib)
+table(bad.2$fullsib%in%bad.1$fullsib)
+table(bad.1$fullsib%in%bad.2$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(bad,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(bad,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(bad,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(bad,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 bad$EstAge <- "BAD_age1"
@@ -111,14 +129,14 @@ bad$EstAge <- "BAD_age1"
 bei.1 <- subset(df,df$loc == "BEI" & df$Class == 1)
 bei.2 <- subset(df,df$loc == "BEI" & df$Class == 2)
 bei <- rbind(bei.1,bei.2)
-table(bei$ClusterIndex)
-table(bei.2$ClusterIndex%in%bei.1$ClusterIndex)
-table(bei.1$ClusterIndex%in%bei.2$ClusterIndex)
+table(bei$fullsib)
+table(bei.2$fullsib%in%bei.1$fullsib)
+table(bei.1$fullsib%in%bei.2$fullsib)
 #!#Overlap of clusters between length cohorts, but some separation as well?????
-ggplot(bei,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(bei,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(bei,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(bei,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 bei$EstAge <- "BEI_age1"
@@ -126,15 +144,17 @@ bei$EstAge <- "BEI_age1"
 #BET - one, length range is very narrow
 bet.1 <- subset(df,df$loc == "BET" & df$Class == 1)
 bet.2 <- subset(df,df$loc == "BET" & df$Class == 2)
-bet <- rbind(bet.1,bet.2)
-table(bet$ClusterIndex)
-table(bet.2$ClusterIndex%in%bet.1$ClusterIndex)
-table(bet.1$ClusterIndex%in%bet.2$ClusterIndex)
+bet.3 <- subset(df,df$loc == "BET" & df$Class == 3)
+bet <- rbind(bet.1,bet.2,bet.3)
+table(bet$fullsib)
+table(bet.2$fullsib%in%bet.1$fullsib)
+table(bet.1$fullsib%in%bet.3$fullsib)
+table(bet.2$fullsib%in%bet.3$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(bet,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(bet,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(bet,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(bet,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 bet$EstAge <- "BET_age1"
@@ -143,14 +163,14 @@ bet$EstAge <- "BET_age1"
 brl.1 <- subset(df,df$loc == "BRL" & df$Class == 1)
 brl.2 <- subset(df,df$loc == "BRL" & df$Class == 2)
 brl <- rbind(brl.1,brl.2)
-table(brl$ClusterIndex)
-table(brl.2$ClusterIndex%in%brl.1$ClusterIndex)
-table(brl.1$ClusterIndex%in%brl.2$ClusterIndex)
+table(brl$fullsib)
+table(brl.2$fullsib%in%brl.1$fullsib)
+table(brl.1$fullsib%in%brl.2$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(brl,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(brl,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(brl,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(brl,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 brl$EstAge <- "BRL_age1"
@@ -158,14 +178,14 @@ brl$EstAge <- "BRL_age1"
 cat.1 <- subset(df,df$loc == "CAT" & df$Class == 1)
 cat.2 <- subset(df,df$loc == "CAT" & df$Class == 2)
 cat <- rbind(cat.1,cat.2)
-table(cat$ClusterIndex)
-table(cat.2$ClusterIndex%in%cat.1$ClusterIndex)
-table(cat.1$ClusterIndex%in%cat.2$ClusterIndex)
+table(cat$fullsib)
+table(cat.2$fullsib%in%cat.1$fullsib)
+table(cat.1$fullsib%in%cat.2$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(cat,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(cat,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(cat,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(cat,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 cat$EstAge <- "CAT_age1"
@@ -174,14 +194,14 @@ cat$EstAge <- "CAT_age1"
 che.1 <- subset(df,df$loc == "CHE" & df$Class == 1)
 che.2 <- subset(df,df$loc == "CHE" & df$Class == 2)
 che <- rbind(che.1,che.2)
-table(che$ClusterIndex)
-table(che.2$ClusterIndex%in%che.1$ClusterIndex)
-table(che.1$ClusterIndex%in%che.2$ClusterIndex)
+table(che$fullsib)
+table(che.2$fullsib%in%che.1$fullsib)
+table(che.1$fullsib%in%che.2$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(che,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(che,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(che,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(che,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 che$EstAge <- "CHE_age1"
@@ -190,14 +210,14 @@ eag.1 <- subset(df,df$loc == "EAG" & df$Class == 1)
 eag.2 <- subset(df,df$loc == "EAG" & df$Class == 2)
 eag.3 <- subset(df,df$loc == "EAG" & df$Class == 3)
 eag <- rbind(eag.1,eag.2,eag.3)
-table(eag$ClusterIndex)
-table(eag.2$ClusterIndex%in%eag.1$ClusterIndex)
-table(eag.1$ClusterIndex%in%eag.2$ClusterIndex)
+table(eag$fullsib)
+table(eag.2$fullsib%in%eag.1$fullsib)
+table(eag.1$fullsib%in%eag.2$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(eag,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(eag,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(eag,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(eag,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 eag$EstAge <- "EAG_age1"
@@ -206,14 +226,14 @@ eag$EstAge <- "EAG_age1"
 ford.1 <- subset(df,df$loc == "FOR" & df$Class == 1)
 ford.2 <- subset(df,df$loc == "FOR" & df$Class == 2)
 ford <- rbind(ford.1,ford.2)
-table(ford$ClusterIndex)
-table(ford.2$ClusterIndex%in%ford.1$ClusterIndex)
-table(ford.1$ClusterIndex%in%ford.2$ClusterIndex)
+table(ford$fullsib)
+table(ford.2$fullsib%in%ford.1$fullsib)
+table(ford.1$fullsib%in%ford.2$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(ford,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(ford,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(ford,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(ford,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 ford$EstAge <- "FOR_age1"
@@ -221,14 +241,14 @@ ford$EstAge <- "FOR_age1"
 mai.1 <- subset(df,df$loc == "MAI" & df$Class == 1)
 mai.2 <- subset(df,df$loc == "MAI" & df$Class == 2)
 mai <- rbind(mai.1,mai.2)
-table(mai$ClusterIndex)
-table(mai.2$ClusterIndex%in%mai.1$ClusterIndex)
-table(mai.1$ClusterIndex%in%mai.2$ClusterIndex)
+table(mai$fullsib)
+table(mai.2$fullsib%in%mai.1$fullsib)
+table(mai.1$fullsib%in%mai.2$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(mai,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(mai,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(mai,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(mai,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 mai$EstAge <- "MAI_age1"
@@ -238,14 +258,14 @@ mai$EstAge <- "MAI_age1"
 man.1 <- subset(df,df$loc == "MAN" & df$Class == 1)
 man.2 <- subset(df,df$loc == "MAN" & df$Class == 2)
 man <- rbind(man.1,man.2)
-table(man$ClusterIndex)
-table(man.2$ClusterIndex%in%man.1$ClusterIndex)
-table(man.1$ClusterIndex%in%man.2$ClusterIndex)
+table(man$fullsib)
+table(man.2$fullsib%in%man.1$fullsib)
+table(man.1$fullsib%in%man.2$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(man,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(man,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(man,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(man,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 man$EstAge <- "MAN_age1"
@@ -256,27 +276,27 @@ mir.2 <- subset(df,df$loc == "MIR" & df$Class == 2)
 mir.3 <- subset(df,df$loc == "MIR" & df$Class == 3)
 mir.4 <- subset(df,df$loc == "MIR" & df$Class == 4)
 mir <- rbind(mir.1,mir.2,mir.3,mir.4)
-table(mir$ClusterIndex)
-table(mir.2$ClusterIndex%in%mir.1$ClusterIndex)
-table(mir.3$ClusterIndex%in%mir.1$ClusterIndex)
-table(mir.4$ClusterIndex%in%mir.1$ClusterIndex)
-table(mir.2$ClusterIndex%in%mir.3$ClusterIndex)
-table(mir.2$ClusterIndex%in%mir.4$ClusterIndex)
-table(mir.3$ClusterIndex%in%mir.4$ClusterIndex)
-table(mir.3$ClusterIndex)
-table(mir.4$ClusterIndex)
+table(mir$fullsib)
+table(mir.2$fullsib%in%mir.1$fullsib)
+table(mir.3$fullsib%in%mir.1$fullsib)
+table(mir.4$fullsib%in%mir.1$fullsib)
+table(mir.2$fullsib%in%mir.3$fullsib)
+table(mir.2$fullsib%in%mir.4$fullsib)
+table(mir.3$fullsib%in%mir.4$fullsib)
+table(mir.3$fullsib)
+table(mir.4$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(mir,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(mir,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(mir,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(mir,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 
-mir2015_clusts <- unique(mir$ClusterIndex[which(mir$Length > 50)])
-mir2015 <- mir[which(mir$ClusterIndex %in% mir2015_clusts),]
+mir2015_clusts <- unique(mir$fullsib[which(mir$Length > 50)])
+mir2015 <- mir[which(mir$fullsib %in% mir2015_clusts),]
 mir2015$EstAge <- "MIR_age2"
-mir2016 <- mir[which(!(mir$ClusterIndex %in% mir2015_clusts)),]
+mir2016 <- mir[which(!(mir$fullsib %in% mir2015_clusts)),]
 mir2016$EstAge <- "MIR_age1"
 
 #MIS - one cohort
@@ -284,15 +304,15 @@ mis.1 <- subset(df,df$loc == "MIS" & df$Class == 1)
 mis.2 <- subset(df,df$loc == "MIS" & df$Class == 2)
 mis.3 <- subset(df,df$loc == "MIS" & df$Class == 3)
 mis <- rbind(mis.1,mis.2,mis.3)
-table(mis$ClusterIndex)
-table(mis.2$ClusterIndex%in%mis.1$ClusterIndex)
-table(mis.3$ClusterIndex%in%mis.1$ClusterIndex)
-table(mis.2$ClusterIndex%in%mis.3$ClusterIndex)
+table(mis$fullsib)
+table(mis.2$fullsib%in%mis.1$fullsib)
+table(mis.3$fullsib%in%mis.1$fullsib)
+table(mis.2$fullsib%in%mis.3$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(mis,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(mis,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(mis,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(mis,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 
@@ -301,14 +321,14 @@ mis$EstAge <- "MIS_age1"
 mus.1 <- subset(df,df$loc == "MUS" & df$Class == 1)
 mus.2 <- subset(df,df$loc == "MUS" & df$Class == 2)
 mus <- rbind(mus.1,mus.2)
-table(mus$ClusterIndex)
-table(mus.2$ClusterIndex%in%mus.1$ClusterIndex)
-table(mus.1$ClusterIndex%in%mus.2$ClusterIndex)
+table(mus$fullsib)
+table(mus.2$fullsib%in%mus.1$fullsib)
+table(mus.1$fullsib%in%mus.2$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(mus,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(mus,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(mus,aes(x=ClusterIndex,y=Weight,fill=as.numeric(Probability)))+
+ggplot(mus,aes(x=fullsib,y=Weight,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 
@@ -319,24 +339,24 @@ ocq.2 <- subset(df,df$loc == "OCQ" & df$Class == 2)
 ocq.3 <- subset(df,df$loc == "OCQ" & df$Class == 3)
 ocq.4 <- subset(df,df$loc == "OCQ" & df$Class == 4)
 ocq <- rbind(ocq.1,ocq.2,ocq.3,ocq.4)
-table(ocq$ClusterIndex)
-table(ocq.2$ClusterIndex%in%ocq.1$ClusterIndex)
-table(ocq.3$ClusterIndex%in%ocq.1$ClusterIndex)
-table(ocq.4$ClusterIndex%in%ocq.1$ClusterIndex)
-table(ocq.2$ClusterIndex%in%ocq.3$ClusterIndex)
-table(ocq.2$ClusterIndex%in%ocq.4$ClusterIndex)
-table(ocq.3$ClusterIndex%in%ocq.4$ClusterIndex)
+table(ocq$fullsib)
+table(ocq.2$fullsib%in%ocq.1$fullsib)
+table(ocq.3$fullsib%in%ocq.1$fullsib)
+table(ocq.4$fullsib%in%ocq.1$fullsib)
+table(ocq.2$fullsib%in%ocq.3$fullsib)
+table(ocq.2$fullsib%in%ocq.4$fullsib)
+table(ocq.3$fullsib%in%ocq.4$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(ocq,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(ocq,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(ocq,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(ocq,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 
-ocq2018 <- ocq[which(ocq$Length >= 38 | ocq$ClusterIndex == 36),]
+ocq2018 <- ocq[which(ocq$Length >= 38 | ocq$fullsib == 36),]
 ocq2018$EstAge <- "OCQ_age1"
-ocq2019 <- ocq[which(ocq$Length < 38 & ocq$ClusterIndex != 36),]
+ocq2019 <- ocq[which(ocq$Length < 38 & ocq$fullsib != 36),]
 ocq2019$EstAge <- "OCQ_age0"
 
 #STE - one cohort from LBAM, no follow-up needed
@@ -346,14 +366,14 @@ ste$EstAge <- "STE_age1"
 swn.1 <- subset(df,df$loc == "SWN" & df$Class == 1)
 swn.2 <- subset(df,df$loc == "SWN" & df$Class == 2)
 swn <- rbind(swn.1,swn.2)
-table(swn$ClusterIndex)
-table(swn.2$ClusterIndex%in%swn.1$ClusterIndex)
-table(swn.1$ClusterIndex%in%swn.2$ClusterIndex)
+table(swn$fullsib)
+table(swn.2$fullsib%in%swn.1$fullsib)
+table(swn.1$fullsib%in%swn.2$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(swn,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(swn,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(swn,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(swn,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 swn$EstAge <- "SWN_age1"
@@ -362,14 +382,14 @@ swn$EstAge <- "SWN_age1"
 taq.1 <- subset(df,df$loc == "TAQ" & df$Class == 1)
 taq.2 <- subset(df,df$loc == "TAQ" & df$Class == 2)
 taq <- rbind(taq.1,taq.2)
-table(taq$ClusterIndex)
-table(taq.2$ClusterIndex%in%taq.1$ClusterIndex)
-table(taq.1$ClusterIndex%in%taq.2$ClusterIndex)
+table(taq$fullsib)
+table(taq.2$fullsib%in%taq.1$fullsib)
+table(taq.1$fullsib%in%taq.2$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(taq,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(taq,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(taq,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(taq,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 taq$EstAge <- "TAQ_age1"
@@ -377,20 +397,20 @@ taq$EstAge <- "TAQ_age1"
 two.1 <- subset(df,df$loc == "TWO" & df$Class == 1)
 two.2 <- subset(df,df$loc == "TWO" & df$Class == 2)
 two <- rbind(two.1,two.2)
-table(two$ClusterIndex)
-table(two.2$ClusterIndex%in%two.1$ClusterIndex)
-table(two.1$ClusterIndex%in%two.2$ClusterIndex)
+table(two$fullsib)
+table(two.2$fullsib%in%two.1$fullsib)
+table(two.1$fullsib%in%two.2$fullsib)
 #!#Overlap of clusters between length cohorts
-ggplot(two,aes(x=ClusterIndex,y=Length,color=Class))+
+ggplot(two,aes(x=fullsib,y=Length,color=Class))+
   geom_point()+theme_bw()
 
-ggplot(two,aes(x=ClusterIndex,y=Length,fill=as.numeric(Probability)))+
+ggplot(two,aes(x=fullsib,y=Length,fill=as.numeric(Probability)))+
   geom_boxplot()+theme_bw()+
   scale_fill_gradient(low = "red",high = "white")
 
-two2017 <- two[which(two$Length >= 50 & two$ClusterIndex != 2),]
+two2017 <- two[which(two$Length >= 50 & two$fullsib != 2),]
 two2017$EstAge <- "TWO_age2"
-two2018 <- two[which(two$Length < 50 | two$ClusterIndex == 2),]
+two2018 <- two[which(two$Length < 50 | two$fullsib == 2),]
 two2018$EstAge <- "TWO_age1"
 
 #merge together all cohorts

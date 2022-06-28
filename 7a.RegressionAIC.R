@@ -7,32 +7,27 @@ Nc <- read.table("Models/env_data_all_locations.txt",header = T,sep = "\t")
 Nb_Ns <- read.table("Output/genetic.estimates.txt",header = T,sep = "\t")
 df1 <- merge(Nb_Ns,Nc)
 ###global to single factor models
-input <- df1[,c("LD_Nb","SF_Nb","Ns_Chao","Vk","YearSinceTreat","Drainage","TrapToMouthKm","SampDist","SampSize","NcAge1")]
+input <- df1[,c("Nb_LD","SF_Nb","Ns_Chao","Vk","YearSinceTreat","Drainage","TrapToMouth","SampDist","SampSites","SampSize","NcAge1")]
 input <- na.omit(input)
-factors <- input[,c("LD_Nb","SF_Nb","Ns_Chao","Vk")]
-responses <- input[,c("YearSinceTreat","Drainage","TrapToMouthKm","SampDist","SampSize","NcAge1")]
-input <- df1 %>% 
-  select(LD_Nb,SF_Nb,Ns_Chao,Vk,YearSinceTreat,Drainage,TrapToMouthKm,SampDist,SampSize,NcAge1)
-input <- na.omit(input)
-factors <- input[,c("LD_Nb","SF_Nb","Ns_Chao","Vk")]
-responses <- input[,c("YearSinceTreat","Drainage","TrapToMouth","SampSites","SampSize")]
+factors <- input[,c("Nb_LD","SF_Nb","Ns_Chao","Vk")]
+responses <- input[,c("YearSinceTreat","Drainage","TrapToMouth","SampSites","SampSize","NcAge1")]
 
 ###checking correlations between factors
 plot(responses)
 
 ##examine models with Nc and TrapToMouth distance ####
 #creating blank data frame to save all AICc values for comparison
-AICc_table <- data.frame(matrix(nrow = 9,ncol = 5))
+AICc_table <- data.frame(matrix(nrow = 10,ncol = 5))
 colnames(AICc_table) <- c("ModelName",colnames(factors))
 AICc_table$ModelName <- c("global",colnames(responses),"sampling","environmental","intercept")
-pval_table <- data.frame(matrix(nrow = 9,ncol = 5))
+pval_table <- data.frame(matrix(nrow = 10,ncol = 5))
 colnames(pval_table) <- c("ModelName",colnames(factors))
 pval_table$ModelName <- c("global",colnames(responses),"sampling","environmental","intercept")
 facnames <- colnames(factors)
 
 ##loop to test all potential models
 #run global models first
-modeltmp <- glm(factors$LD_Nb~responses$YearSinceTreat+responses$Drainage+responses$TrapToMouth+responses$SampSites+responses$SampSize)
+modeltmp <- glm(factors$Nb_LD~responses$YearSinceTreat+responses$Drainage+responses$TrapToMouth+responses$SampSites+responses$SampSize)
 AICc_table[1,2] <- AICc(modeltmp) 
 pval_table[1,2] <- summary(modeltmp)$coefficients[,4][2]
 
@@ -50,20 +45,20 @@ pval_table[1,5] <- summary(modeltmp)$coefficients[,4][2]
 
 #run intercept models
 modeltmp <- glm(factors$LD_Nb~1)
-AICc_table[9,2] <- AICc(modeltmp) 
-pval_table[9,2] <- summary(modeltmp)$coefficients[,4][2]
+AICc_table[10,2] <- AICc(modeltmp) 
+pval_table[10,2] <- summary(modeltmp)$coefficients[,4][2]
 
 modeltmp <- glm(factors$SF_Nb~1)
-AICc_table[9,3] <- AICc(modeltmp) 
-pval_table[9,3] <- summary(modeltmp)$coefficients[,4][2]
+AICc_table[10,3] <- AICc(modeltmp) 
+pval_table[10,3] <- summary(modeltmp)$coefficients[,4][2]
 
 modeltmp <- glm(factors$Ns_Chao~1)
-AICc_table[9,4] <- AICc(modeltmp) 
-pval_table[9,4] <- summary(modeltmp)$coefficients[,4][2]
+AICc_table[10,4] <- AICc(modeltmp) 
+pval_table[10,4] <- summary(modeltmp)$coefficients[,4][2]
 
 modeltmp <- glm(factors$Vk~1)
-AICc_table[9,5] <- AICc(modeltmp)  
-pval_table[9,5] <- summary(modeltmp)$coefficients[,4][2]
+AICc_table[10,5] <- AICc(modeltmp)  
+pval_table[10,5] <- summary(modeltmp)$coefficients[,4][2]
 
 for (a in 1:length(factors)) {
   f <- factors[,a]
@@ -86,9 +81,9 @@ for (a in 1:length(factors)) {
   AICc_table[8,a+1] <- AICc(modeltmp) 
   pval_table[8,a+1] <- summary(modeltmp)$coefficients[,4][2]
   #biotic model
-  #modeltmp <- glm(f~NcAge1+YearSinceTreat,data = tmp)
-  #AICc_table[10,a+1] <- AICc(modeltmp) 
-  #pval_table[10,a+1] <- summary(modeltmp)$coefficients[,4][2]
+  modeltmp <- glm(f~NcAge1+YearSinceTreat,data = tmp)
+  AICc_table[9,a+1] <- AICc(modeltmp) 
+  pval_table[9,a+1] <- summary(modeltmp)$coefficients[,4][2]
 }
 
 #examine AICc for the best model in each factor

@@ -4,11 +4,18 @@ library(qpcR)
 #read in data
 Nc <- read.table("Models/env_data_all_locations.txt",header = T,sep = "\t")
 Nb_Ns <- read.table("Output/genetic.estimates.txt",header = T,sep = "\t")
+Nb_Ns <- Nb_Ns %>% 
+  rename(genest = Pop) %>% 
+  mutate(Pop1 = genest) %>% 
+  separate(Pop1,c("Pop","num"),sep = 3)
+
+#selecting genest for age1 when there are multiple cohorts
+Nb_Ns <- subset(Nb_Ns,Nb_Ns$genest != "MIR2015" & Nb_Ns$genest != "OCQ2019" & Nb_Ns$genest != "TWO2017")
 df1 <- merge(Nb_Ns,Nc)
 ###global to single factor models
-input <- df1[,c("Pop","LD_Nb","SF_Nb","Ns_Chao","Vk","YearSinceTreat","Drainage","SampSites","SampSize")]
+input <- df1[,c("Pop","Nb_LD","SF_Nb","Ns_Chao","Vk","YearSinceTreat","Drainage","SampSites","SampSize")]
 input <- na.omit(input)
-factors <- input[,c("LD_Nb","SF_Nb","Ns_Chao","Vk")]
+factors <- input[,c("Nb_LD","SF_Nb","Ns_Chao","Vk")]
 responses <- input[,c("YearSinceTreat","Drainage","SampSites","SampSize")]
 
 ###checking correlations between factors
@@ -26,24 +33,28 @@ facnames <- colnames(factors)
 
 ##loop to test all potential models
 #run global models first
-modeltmp <- glm(factors$LD_Nb~responses$YearSinceTreat+responses$Drainage+responses$SampSites+responses$SampSize)
+modeltmp <- glm(factors$Nb_LD~responses$YearSinceTreat+responses$Drainage+responses$SampSites+responses$SampSize)
+summary(modeltmp)
 AICc_table[1,2] <- AICc(modeltmp) 
 pval_table[1,2] <- summary(modeltmp)$coefficients[,4][2]
 
 modeltmp <- glm(factors$SF_Nb~responses$YearSinceTreat+responses$Drainage+responses$SampSites+responses$SampSize)
+summary(modeltmp)
 AICc_table[1,3] <- AICc(modeltmp) 
 pval_table[1,3] <- summary(modeltmp)$coefficients[,4][2]
 
 modeltmp <- glm(factors$Ns_Chao~responses$YearSinceTreat+responses$Drainage+responses$SampSites+responses$SampSize)
+summary(modeltmp)
 AICc_table[1,4] <- AICc(modeltmp) 
 pval_table[1,4] <- summary(modeltmp)$coefficients[,4][2]
 
 modeltmp <- glm(factors$Vk~responses$YearSinceTreat+responses$Drainage+responses$SampSites+responses$SampSize)
+summary(modeltmp)
 AICc_table[1,5] <- AICc(modeltmp)  
 pval_table[1,5] <- summary(modeltmp)$coefficients[,4][2]
 
 #run intercept models
-modeltmp <- glm(factors$LD_Nb~1)
+modeltmp <- glm(factors$Nb_LD~1)
 AICc_table[7,2] <- AICc(modeltmp) 
 pval_table[7,2] <- summary(modeltmp)$coefficients[,4][2]
 
@@ -81,7 +92,7 @@ for (a in 1:length(factors)) {
 apply(AICc_table, 2, min)
 
 #create another table with Akeike weights
-LD_AICc <- data.frame(ModelName = AICc_table$ModelName,AICc_value = AICc_table$LD_Nb)
+LD_AICc <- data.frame(ModelName = AICc_table$ModelName,AICc_value = AICc_table$Nb_LD)
 LD_AICc$AkaikeWeights <- akaike.weights(LD_AICc$AICc_value)$weights
 SF_AICc <- data.frame(ModelName = AICc_table$ModelName,AICc_value = AICc_table$SF_Nb)
 SF_AICc$AkaikeWeights <- akaike.weights(SF_AICc$AICc_value)$weights
@@ -92,20 +103,10 @@ Vk_AICc$AkaikeWeights <- akaike.weights(Vk_AICc$AICc_value)$weights
 
 ##run models that are similar AIC to best model
 #LD
-modelLD <- glm(factors$LD_Nb~responses$Drainage)
+modelLD <- glm(factors$Nb_LD~responses$SampSize)
 summary(modelLD)
-plotdat <- data.frame(LD_Nb=factors$LD_Nb,Drainage=responses$Drainage)
-drainLD_plot <- ggplot(plotdat,aes(x=Drainage,y=LD_Nb))+
-  geom_point()+
-  theme_bw()+
-  geom_smooth(method = "glm", se = F,col = "darkblue")+
-  stat_regline_equation(aes(label = ..rr.label..))+
-  xlab("Drainage")+
-  ylab("Nb - LD")
 
-modelLD <- glm(factors$LD_Nb~responses$SampSize)
-summary(modelLD)
-plotdat <- data.frame(LD_Nb=factors$LD_Nb,SampSize=responses$SampSize)
+plotdat <- data.frame(LD_Nb=factors$Nb_LD,SampSize=responses$SampSize)
 sampLD_plot <- ggplot(plotdat,aes(x=SampSize,y=LD_Nb))+
   geom_point()+
   theme_bw()+
@@ -114,14 +115,26 @@ sampLD_plot <- ggplot(plotdat,aes(x=SampSize,y=LD_Nb))+
   xlab("Sample Size")+
   ylab("Nb - LD")
 
-modelLD2 <- glm(factors$LD_Nb~responses$YearSinceTreat+responses$Drainage+responses$SampSites+responses$SampSize)
+modelLD2 <- glm(factors$Nb_LD~responses$SampSites)
 summary(modelLD2)
 
-modelLD3 <- glm(factors$LD_Nb~responses$Drainage)
+plotdat <- data.frame(LD_Nb=factors$Nb_LD,SampSites=responses$SampSites)
+sampsiteLD_plot <- ggplot(plotdat,aes(x=SampSites,y=LD_Nb))+
+  geom_point()+
+  theme_bw()+
+  geom_smooth(method = "glm", se = F,col = "darkblue")+
+  stat_regline_equation(aes(label = ..rr.label..))+
+  xlab("Sample Sites")+
+  ylab("Nb - LD")
+
+modelLD3 <- glm(factors$Nb_LD~responses$SampSize+responses$SampSites)
 summary(modelLD3)
 
-modelLD3 <- glm(factors$LD_Nb~responses$SampSites)
-summary(modelLD3)
+modelLD4 <- glm(factors$Nb_LD~responses$Drainage)
+summary(modelLD4)
+
+modelLD5 <- glm(factors$Nb_LD~responses$YearSinceTreat)
+summary(modelLD5)
 
 #SF
 modelSF <- glm(factors$SF_Nb~responses$SampSites)
@@ -135,8 +148,8 @@ sitesSF_plot <- ggplot(plotdat,aes(x=SampSites,y=SF_Nb))+
   xlab("Sample Sites")+
   ylab("Nb - SF")
 
-modelSF <- glm(factors$SF_Nb~responses$SampSize)
-summary(modelSF)
+modelSF2 <- glm(factors$SF_Nb~responses$SampSize)
+summary(modelSF2)
 plotdat <- data.frame(SF_Nb=factors$SF_Nb,SampSize=responses$SampSize)
 sizeSF_plot <- ggplot(plotdat,aes(x=SampSize,y=SF_Nb))+
   geom_point()+
@@ -146,8 +159,6 @@ sizeSF_plot <- ggplot(plotdat,aes(x=SampSize,y=SF_Nb))+
   xlab("Sample Size")+
   ylab("Nb - SF")
 
-modelSF2 <- glm(factors$SF_Nb~1)
-summary(modelSF2)
 modelSF3 <- glm(factors$SF_Nb~responses$SampSites+responses$SampSize)
 summary(modelSF3)
 modelSF4 <- glm(factors$SF_Nb~responses$SampSize)

@@ -12,12 +12,14 @@ source("Homebrew/PwoP_uncert.R")
 source("Homebrew/Ns_calc.R")
 
 ##1. Calculate Nb - PwoP method and both Ns estimates using reconstructed pedigree
+#!# PwoP estimate not used in publication anymore, kept in to calculate kbar and Vk
+
 pops <- c("BAD","BEI","BET","BRL",
           "CAT","CHE","EAG","FOR",
           "MAI","MAN","MIR2015","MIR2016",
           "MIS","MUS","OCQ2018","OCQ2019","STE",
           "SWN","TAQ","TWO2017","TWO2018")
-i <- 1
+i <- 13
 Nb_PwoP <- data.frame(matrix(nrow = length(pops),ncol = 7))
 colnames(Nb_PwoP) <- c("Pop","SampSize","PwoP_Nb","kbar","Vk", "PwoP_LCI", "PwoP_HCI")
 Ns_all <- data.frame(matrix(nrow = length(pops),ncol = 6))
@@ -56,8 +58,9 @@ for (i in 1:length(pops)) {
 ##2. Extract Nb - LD method from NeEstimator tabular output
 Nb_LD <- read.table("SoftwareOutput/All_Neestimator_2019_age1LDxLD.txt",header = T)
 Nb_LD1 <- Nb_LD %>% 
-  select(Pop,SampSize,Nb,JackLCI,JackHCI) %>% 
-  rename(LD_Nb=Nb,LD_LCI=JackLCI,LD_HCI=JackHCI)
+  filter(CritValue == "0.05") %>% 
+  select(Pop,SampSize,Nb_LD,Jack_LCI,Jack_HCI) %>% 
+  rename(LD_LCI=Jack_LCI,LD_HCI=Jack_HCI)
 #3. Extract Nb - SF method from Colony Ne output
 i <- 1
 Nb_SF <- data.frame(matrix(nrow = length(pops),ncol = 4))
@@ -81,7 +84,7 @@ for (i in 1:length(pops)) {
 
 ##combining all estimates into a table, along with Vk and kbar
 Nb_Ns <- Nb_LD1 %>% 
-  full_join(Nb_PwoP,by="Pop") %>% 
+  full_join(Nb_PwoP,by = "Pop") %>% 
   full_join(Nb_SF,by="Pop") %>% 
   full_join(Ns_all,by="Pop")
 

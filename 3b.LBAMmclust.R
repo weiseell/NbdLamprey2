@@ -33,7 +33,7 @@ for (i in 1:length(locs)) {
   tmpmodel <- cbind(tmp$Length,tmp$Weight)
   
   #run mclust with VVV model
-  mBIC <- mclustBIC(tmpmodel, G=1:5, modelName= c("VVV","EEV","VEV"))
+  mBIC <- mclustBIC(tmpmodel, G=1:5, modelName= c("VVV"))
   BICvals[[locs[i]]] <- mBIC
   
 }
@@ -43,7 +43,7 @@ BICvals
 
 #add mclust results to the other two methods to get bestk for all locations
 #make a named vector with all bestk for individual assignments
-bestK <- c(2,2,2,2,3,2,3,2,2,2,4,3,2,4,1,2,2,2)
+bestK <- c(2,2,3,2,3,2,3,2,2,2,4,3,2,4,1,2,2,2)
 names(bestK) <- locs
 models <- vector(mode = "list",length = length(locs))
 classes <- vector(mode = "list",length = length(locs))

@@ -10,9 +10,11 @@
 #load libraries
 library("adegenet")
 library("hierfstat")
+library("apex")
+library("mmod")
+library("ape")
 library("pegas")
 library("tidyverse")
-library("radmixture")
 
 #load data
 load("Summaries/Alllocs_cohorts.rda")
@@ -37,7 +39,10 @@ selectedSNPs <- merge(LD_select,comb_gt8X)
 #selected 500 SNPs with most complete data to simplify calculations
 selectedSNPs1 <- selectedSNPs %>% 
   arrange(desc(pGT)) %>% 
-  slice_head(n = 500)
+  slice_head(n = 1500)
+hist(selectedSNPs1$pGT)
+hist(selectedSNPs1$het)
+table(selectedSNPs1$CHROM)
 #merge selected SNPs with selected individuals
 selectedSNPs2 <- selectedSNPs1 %>% 
   select(-het:-target) %>% 
@@ -46,8 +51,6 @@ selectedSNPs2 <- selectedSNPs1 %>%
   spread(key = "ID",value = "SNP") %>% 
   rename(OffspringID = indiv)
 gts_comb <- merge(sib_select,selectedSNPs2)
-
-
 
 #converting into geneid and hierfstat objects for stat calculations
 SNPs <- gts_comb[,-1:-11]
@@ -60,6 +63,7 @@ gene1 <- df2genind(SNPs, ind.names = indiv,
                    sep = "/",
                    NA.char = "_/_")
 gene2 <-genind2loci(gene1)
+gene3 <- as.genclone(gene1)
 hierfgts <- genind2hierfstat(gene1)
 ##Per-SNP statistics####
 #expected and observed heterozygosity for each SNP and each populations
@@ -74,6 +78,8 @@ colMeans(statsout[["Hs"]],na.rm = T)
 nAll(gene1)
 
 #allele freq PCA
+freqs <- pop.freq(hierfgts)
+
 #!# no interpretable separation
 x <- indpca(hierfgts) 
 plot(x, cex = 0.7)
@@ -83,13 +89,14 @@ plot(x, cex = 0.7)
 hwe <- hw.test(gene1, B = 1000)
 ##Per-population statistics####
 ##Fis for each population
-#confidence intervals for per population Fis (across 500 SNP set)
+#confidence intervals for per population Fis (across 1500 SNP set)
 boot.ppfis(hierfgts)
 
 ##Population Comparison Analysis####
 ##between population Fst
 fsts <- genet.dist(gene1, method = "WC84")
-
+fsts <- pairwise.WCfst(hierfgts)
+fstuncert <- boot.ppfst(hierfgts)
 ##sort by lake and run an AMOVA
 #making a lake column for data
 gts_comb$lake <- NA
@@ -113,7 +120,7 @@ lake <- gts_comb$lake
 #test for differentiation based on lake
 loci <- hierfgts[,-1]
 
-#test if popualtion is a sig factor on genetic differentiation
+#test if population is a sig factor on genetic differentiation
 #!#significant
 popdifftest <- test.g(loci, level = pop,nperm = 1000) 
 
@@ -127,19 +134,21 @@ gene2 <- genind2genpop(gene1,pop = pop)
 distgen <- dist.genpop(gene2,method = 2)
 dist(gene1$other)
 
-##make a structure input file with this data set for testing
-gts_comb1 <- gts_comb %>% 
-  select(-Length:-fullsib) %>% 
-  select(-lake) %>% 
-  gather(key = "locus",value = "gt",-OffspringID)
 
-gts_col <- vcf_colony(gts_comb1)
-gts_col <- gts_col %>% 
-  rename(OffspringID=id)
-vars <- gts_comb %>% 
-  select(OffspringID,loc)
-gts_col1 <- merge(vars,gts_col)
-write.table(gts_col1,file = "SNPsets/STRUCTURE.SNPs.txt",append = F,quote = F,sep = "\t",row.names = F,col.names = T)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

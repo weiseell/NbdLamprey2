@@ -35,7 +35,7 @@ BDclust <- vector(mode = "list", length = length(samples))
 names(RMclust) <- samples
 names(RMclust_probs) <- samples
 names(BDclust) <- samples
-i <- 4
+i <- 1
 for(i in 1:length(samples)){
   samp_i <- samples[i]
   tmp <- subset(df1, df1$samp == samp_i)

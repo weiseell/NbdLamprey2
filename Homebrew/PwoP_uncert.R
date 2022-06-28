@@ -43,12 +43,23 @@ PwoP_uncert <- function(ca,bc){
   }
   
   #combine Vc and Vg to get total variance
-  Vg <- var(1/(2*PwoP_sim$Nb))
-  Vs <- var(1/(2*PwoP_ca$Nb))
-  LCIrecip <- 1/(2*trueNb["Nb"]) + 1.96*sqrt(Vg+Vs)
-  LCI <- 0.5/LCIrecip
-  UCIrecip <- 1/(2*trueNb["Nb"]) - 1.96*sqrt(Vg+Vs) 
-  UCI <- 0.5/UCIrecip  
+  if(nrow(PwoP_ca) > 1){
+    Vg <- var(1/(2*PwoP_sim$Nb))
+    Vs <- var(1/(2*PwoP_ca$Nb))
+    LCIrecip <- 1/(2*trueNb["Nb"]) + 1.96*sqrt(Vg+Vs)
+    LCI <- 0.5/LCIrecip
+    UCIrecip <- 1/(2*trueNb["Nb"]) - 1.96*sqrt(Vg+Vs) 
+    UCI <- 0.5/UCIrecip 
+  }
+  
+  if(nrow(PwoP_ca) == 1){
+    print("Warning: only one ConfigArchive, simulated variance alone used instead of added variance")
+    Vg <- var(1/(2*PwoP_sim$Nb))
+    LCIrecip <- 1/(2*trueNb["Nb"]) + 1.96*sqrt(Vg)
+    LCI <- 0.5/LCIrecip
+    UCIrecip <- 1/(2*trueNb["Nb"]) - 1.96*sqrt(Vg) 
+    UCI <- 0.5/UCIrecip 
+  }
   
   conf_int <- c(LCI,UCI)
   names(conf_int) <- c("LCI","UCI")

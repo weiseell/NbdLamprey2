@@ -4,12 +4,12 @@
 #also includes a cohort column (created earlier)
 
 pedigree.plot <- function(family,title = "Pedigree Plot"){
-  family <- family[order(family$cohort,family$MotherID,family$FatherID),]
+  family <- family[order(family$Class,family$MotherID,family$FatherID),]
   moms <- unique(family$MotherID)
   dads <- unique(family$FatherID)
 
-  momdots <- data.frame(ID = moms, y = seq(from=1,to=length(family$OffspringID),length.out=length(moms)))
-  daddots <- data.frame(ID = dads, y = seq(from=1,to=length(family$OffspringID),length.out=length(dads)))
+  momdots <- data.frame(ID = unique(family$MotherID), y = seq(from=1,to=length(family$OffspringID),length.out=length(moms)))
+  daddots <- data.frame(ID = unique(family$FatherID), y = seq(from=1,to=length(family$OffspringID),length.out=length(dads)))
   
   #make the plot points
   plot(x = c(1,2,3), 
@@ -31,30 +31,30 @@ pedigree.plot <- function(family,title = "Pedigree Plot"){
   }
   
   #adding labels
-  mtext("Parent 1", side = 3, line = 0, at = 1, cex = 0.9)
-  mtext("Parent 2", side = 3, line = 0, at = 3, cex = 0.9)
-  mtext("Offspring", side = 3, line = 0, at = 2, cex = 0.9)
+  #mtext("Inferred \nParent 1", side = 3, line = 0, at = 1, cex = 0.9)
+  #mtext("Inferred \nParent 2", side = 3, line = 0, at = 3, cex = 0.9)
+  #mtext("Offspring", side = 3, line = 0, at = 2, cex = 0.9)
   #adding rectangles
-  if(length(unique(family$loc > 1))){
-    cohorts <- unique(family$loc)
+  if(length(unique(family$Class > 1))){
+    cohorts <- unique(family$Class)
     for (r in 1:length(cohorts)) {
       c <- cohorts[r]
       rect(xleft=1.75,
            xright = 2.25,
-           ybottom = max(which(family$clust == c)), 
-           ytop = min(which(family$clust == c)),
+           ybottom = max(which(family$Class == c)), 
+           ytop = min(which(family$Class == c)),
            border = "black", lwd = 2)
-      text(x = 1.7, y = mean(which(family$clust == c)), c, pos =2, col = "black")
+      #text(x = 1.7, y = mean(which(family$Class == c)), c, pos =2, col = "black")
     }
   }
-  cohorts <- unique(family$cohort)
+  cohorts <- unique(family$Class)
   for (r in 1:length(cohorts)) {
     c <- cohorts[r]
     rect(xleft=1.75,
          xright = 2.25,
-         ybottom = max(which(family$cohort == c)), 
-         ytop = min(which(family$cohort == c)),
+         ybottom = max(which(family$Class == c)), 
+         ytop = min(which(family$Class == c)),
          border = "black", lwd = 2)
-    text(x = 1.7, y = mean(which(family$cohort == c)), paste("inferred\n",c), pos =2, col = "black")
+    #text(x = 1.7, y = mean(which(family$Class == c)), paste("inferred\n",c), pos =2, col = "black")
   }
 }
