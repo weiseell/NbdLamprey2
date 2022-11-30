@@ -58,9 +58,14 @@ for (i in 1:length(pops)) {
 ##2. Extract Nb - LD method from NeEstimator tabular output
 Nb_LD <- read.table("SoftwareOutput/All_Neestimator_2019_age1LDxLD.txt",header = T)
 Nb_LD1 <- Nb_LD %>% 
+<<<<<<< Updated upstream
   filter(CritValue == "0.05") %>% 
   select(Pop,SampSize,Nb_LD,Jack_LCI,Jack_HCI) %>% 
   rename(LD_LCI=Jack_LCI,LD_HCI=Jack_HCI)
+=======
+  select(POP,SampSize,CritValue,Nb_LD,Jack_LCI,Jack_HCI) %>% 
+  rename(LD_LCI=Jack_LCI,LD_HCI=Jack_HCI,Pop = POP,LD_CritValue = CritValue)
+>>>>>>> Stashed changes
 #3. Extract Nb - SF method from Colony Ne output
 i <- 1
 Nb_SF <- data.frame(matrix(nrow = length(pops),ncol = 4))

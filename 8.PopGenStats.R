@@ -134,6 +134,7 @@ gene2 <- genind2genpop(gene1,pop = pop)
 distgen <- dist.genpop(gene2,method = 2)
 dist(gene1$other)
 
+<<<<<<< Updated upstream
 
 
 
@@ -151,6 +152,9 @@ dist(gene1$other)
 
 
 
+=======
+#
+>>>>>>> Stashed changes
 
 
 
