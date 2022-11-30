@@ -10,7 +10,7 @@ Nb_Ns <- Nb_Ns %>%
   separate(Pop1,c("Pop","num"),sep = 3)
 
 #selecting genest for age1 when there are multiple cohorts
-Nb_Ns <- subset(Nb_Ns,Nb_Ns$genest != "MIR2015" & Nb_Ns$genest != "OCQ2019" & Nb_Ns$genest != "TWO2017")
+Nb_Ns <- subset(Nb_Ns,Nb_Ns$genest != "MIR2015" & Nb_Ns$genest != "OCQ2019" & Nb_Ns$genest != "TWO2017" & Nb_Ns$genest != "STE")
 df1 <- merge(Nb_Ns,Nc)
 ###global to single factor models
 input <- df1[,c("Pop","Nb_LD","SF_Nb","Ns_Chao","Vk","YearSinceTreat","Drainage","SampSites","SampSize")]

@@ -5,7 +5,7 @@ library(tidyverse)
 library(ggpubr)
 library(wesanderson)
 #load functions
-source("Homebrew/family.plot.R")
+source("Homebrew/pedigree.plot.R")
 source("Homebrew/multiplot.R")
 source("Homebrew/Ns_calc.R")
 #load Nb data and length data for plot annotation
@@ -107,6 +107,14 @@ multiplot(cols = 4,boxplots[[1]],boxplots[[5]],boxplots[[9]],
           boxplots[[16]])
 dev.off()
 
+tiff(filename = "Figures/ScatterPlots062922.tiff",height = 12,width = 8, units = "in",res = 200)
+multiplot(cols = 3,scatters[[1]],scatters[[7]],scatters[[13]],
+          scatters[[2]],scatters[[8]],scatters[[14]],
+          scatters[[3]],scatters[[9]],scatters[[15]],
+          scatters[[4]],scatters[[10]],scatters[[16]],
+          scatters[[5]],scatters[[11]],scatters[[17]],
+          scatters[[6]],scatters[[12]],scatters[[18]])
+dev.off()
 #alternate plot method with  single data frame instead of a loop - doesn't quite work right yet
 alllocs_cohorts1 <- alllocs_cohorts %>% mutate(fullsib = paste(MotherID,FatherID,sep = "_"))
 alllocs_cohorts1 <- alllocs_cohorts1 %>% 
@@ -127,7 +135,7 @@ ggplot(alllocs_cohorts1,aes(x=Length,group=ClusterIndex,y=ClusterIndex))+
 #calculation loop
 locs1 <- c("BAD","BEI","BET","BRL",
                   "CAT","CHE","EAG","FOR",
-                  "MAI","MAN","MIR2015","MIR2016",
+                  "MAI","MAN","MIR2016",
                   "MIS","MUS","OCQ2018","OCQ2019","STE",
                   "SWN","TAQ","TWO2017","TWO2018")
 plotnames1 <- c("Bad River",
@@ -140,8 +148,7 @@ plotnames1 <- c("Bad River",
                "Ford River",
                "Manistique River",
                "Manistee River",
-               "Middle River - 2015",
-               "Middle River - 2016",
+               "Middle River",
                "Misery River",
                "Muskegon River",
                "Ocqueoc River - 2018",
@@ -206,14 +213,14 @@ multiplot(cols = 3,Nsplots[[1]],Nsplots[[4]],Nsplots[[7]],
           Nsplots[[2]],Nsplots[[5]],Nsplots[[8]],
           Nsplots[[11]],Nsplots[[14]],Nsplots[[17]],Nsplots[[20]],
           Nsplots[[3]],Nsplots[[6]],Nsplots[[9]],
-          Nsplots[[12]],Nsplots[[15]],Nsplots[[18]],Nsplots[[21]])
+          Nsplots[[12]],Nsplots[[15]],Nsplots[[18]])
 dev.off()
 
 ##Scatter plots with mixture analysis results
 
 
 ##making per-stream plots from the already generated plots here
-pdf(file = "Figures/PerStreamPlots062822.pdf")
+pdf(file = "Figures/PerStreamPlots_062822.pdf")
 badplot <- ggarrange(boxplots[[1]], labels = c("A"),
           ggarrange(scatters[[1]],Nsplots[[1]],labels = c("B","C"),ncol = 2),
           nrow=2)
@@ -252,34 +259,34 @@ manplot <- ggarrange(boxplots[[9]], labels = c("A"),
                      ggarrange(scatters[[10]],Nsplots[[10]],labels = c("B","C"),ncol = 2),
                      nrow=2)
 annotate_figure(manplot,top = text_grob("Manistee River",face = "bold",size = 18))
-mirplot <- ggarrange(scatters[[11]],boxplots[[10]], labels = c("A","B"),
-          ggarrange(Nsplots[[11]],Nsplots[[12]],labels = c("C","D"),ncol = 2),
-          nrow=3)
+mirplot <- ggarrange(boxplots[[10]], labels = c("A"),
+                     ggarrange(scatters[[11]],Nsplots[[11]],labels = c("B","C"),ncol = 2),
+                     nrow=2)
 annotate_figure(mirplot,top = text_grob("Middle River",face = "bold",size = 18))
 misplot <- ggarrange(boxplots[[11]], labels = c("A"),
-                     ggarrange(scatters[[12]],Nsplots[[13]],labels = c("B","C"),ncol = 2),
+                     ggarrange(scatters[[12]],Nsplots[[12]],labels = c("B","C"),ncol = 2),
                      nrow=2)
 annotate_figure(misplot,top = text_grob("Misery River",face = "bold",size = 18))
-musplot <- ggarrange(scatters[[13]],Nsplots[[14]],labels = c("A","B"),ncol = 2)
+musplot <- ggarrange(scatters[[13]],Nsplots[[13]],labels = c("A","B"),ncol = 2)
 annotate_figure(musplot,top = text_grob("Muskegon River",face = "bold",size = 18))
 ocqplot <- ggarrange(scatters[[14]],boxplots[[12]], labels = c("A","B"),
-                     ggarrange(Nsplots[[15]],Nsplots[[16]],labels = c("C","D"),ncol = 2),
+                     ggarrange(Nsplots[[14]],Nsplots[[15]],labels = c("C","D"),ncol = 2),
                      nrow=3)
 annotate_figure(ocqplot,top = text_grob("Ocqueoc River",face = "bold",size = 18))
 steplot <- ggarrange(boxplots[[13]], labels = c("A"),
-                     ggarrange(scatters[[15]],Nsplots[[17]],labels = c("B","C"),ncol = 2),
+                     ggarrange(scatters[[15]],Nsplots[[16]],labels = c("B","C"),ncol = 2),
                      nrow=2)
 annotate_figure(steplot,top = text_grob("Sterling River",face = "bold",size = 18))
 swnplot <- ggarrange(boxplots[[14]], labels = c("A"),
-                     ggarrange(scatters[[16]],Nsplots[[18]],labels = c("B","C"),ncol = 2),
+                     ggarrange(scatters[[16]],Nsplots[[17]],labels = c("B","C"),ncol = 2),
                      nrow=2)
 annotate_figure(swnplot,top = text_grob("Swan Creek",face = "bold",size = 18))
 taqplot <- ggarrange(boxplots[[15]], labels = c("A"),
-                     ggarrange(scatters[[17]],Nsplots[[19]],labels = c("B","C"),ncol = 2),
+                     ggarrange(scatters[[17]],Nsplots[[18]],labels = c("B","C"),ncol = 2),
                      nrow=2)
 annotate_figure(taqplot,top = text_grob("Tahquamenon River",face = "bold",size = 18))
 twoplot <- ggarrange(scatters[[18]],boxplots[[16]], labels = c("A","B"),
-                     ggarrange(Nsplots[[20]],Nsplots[[21]],labels = c("C","D"),ncol = 2),
+                     ggarrange(Nsplots[[19]],Nsplots[[20]],labels = c("C","D"),ncol = 2),
                      nrow=3)
 annotate_figure(twoplot,top = text_grob("Two-Hearted River",face = "bold",size = 18))
 dev.off()
