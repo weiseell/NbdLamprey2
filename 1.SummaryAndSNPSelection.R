@@ -1,8 +1,26 @@
+##Script 1: Summary Statistics and SNP set selection
+##Goals:
+##1. Generate heterozygostiy and percent genotyped for each SNP
+##2. Generate COLONY SNP set and input file for each stream location
+
+#load libraries
+
+#load custom functions
+source("Homebrew/COLONY_filter.R")
+source("Homebrew/vcf_colony.R")
+source("Homebrew/marker_create.R")
+source("Homebrew/colonydat_create.R")
+
+#list of populations
 pops <- c("BAD","BEI","BET","BRL","CAT","CHE","EAG","FOR","MAI","MAN","MIR","MIS","MUS","OCQ","STE","SWN","TAQ","TWO")
 
+#blank list to store which SNPs are in each COLONY set
 Colony_out <- list()
+
+#per population loop
 for (i in 1:length(pops)) {
   print(i)
+  #read in input files
   pop <- pops[i]
   gts <- read.table(paste0("Input/",pop,"_GT_8X.GT.FORMAT"),header = T,sep = "\t",stringsAsFactors = F)
   gts$ID <- paste0(gts$CHROM,"-",gts$POS)
@@ -23,6 +41,8 @@ for (i in 1:length(pops)) {
   prefilter <- stats %>%
     rename(MAF=MinAF) %>% 
     filter(MAF > 0.05 & pGT > 0.8)
+  
+  #run colony filter function
   Colony_out[[pop]] <- COLONY_filter(prefilter,window = 1000000,pGT_min = 0.8,MAF_min = 0.05)
   
   #Goal 2####
@@ -44,6 +64,7 @@ for (i in 1:length(pops)) {
   SNPs <- SNPs[-1]
   markers <- marker_create(SNPs,cod = 0,gte = 0.02,ote = 0.001)
   
+  #make colony file with all locations
   tmp_col <- col_format[grep(pattern = pops[i],x = col_format$id),]
   colonydat_create(moms = NA,dads = NA,kids = tmp_col,markers = markers,update.alfs = 0,spp.type = 2,inbreeding = 0,
                    ploidy = 0,fem.gamy = 0,mal.gamy = 0,clone = 0,sib.scale = 0,sib.prior = 0,known.alfs = 0,
@@ -51,8 +72,9 @@ for (i in 1:length(pops)) {
                    prob.mom = 0,prob.dad = 0,output_file = paste0("SNPsets/ColonyFiles_011222/",pops[i],"_colony2.dat"))
 }
 
+#Save COLONY SNP set file
+#!# Note: check for length outliers and remake COLONY files without outliers to run for Nb
 save(Colony_out,file = "SNPsets/COLONY_SNPsets_011222.rda")
-
 
 
 

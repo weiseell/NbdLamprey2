@@ -1,19 +1,22 @@
-Lake	Stream	Pop	TreatYear	TreatMonth	YearSinceTreat	Nc_2016	Nc_2017	Nc_2018	Nc_2019	Drainage	potential	TrapToMouth	SampSites	NcAge1	AdultRemove	SampDist	BirthYear	CollectYear	EstLarvalAge	CollectMonth
-Superior	Bad	BAD	2017	September	1	1605	5878	11301	4333	2270	1	22.7	1	11301	710	0.2	2018	2019	1	
-Michigan	Betsie	BEI	2017	June	1	1259	984	1654	561	590	1	14.4	1	1654	1002	0.2	2018	2019	1	May
-Superior	Betsy	BET	2017	July	1	396	3778	1097	615	230	1	8.5	2	1097	273	0.2	2018	2019	1	May
-Superior	Brule	BRL	2018	June	0	3194	21024	36558	770	408	1	6.4	1	36558	3247	0.2	2018	2019	1	
-Erie	Cattaraugus	CAT	2016	May	2	NA	5901	1637	NA	1129	1	33.1	4	1637	158	11	2018	2019	1	April
-Huron	Pigeon	CHE	2000	July	NA	NA	NA	NA	NA	1550	1	1.7	3	NA	NA	6	2019	2019	0	August
-Huron	East Au Gres	EAG	2018	June	0	1846	1542	2124	1456	653	1	16.7	2	2124	424	3	2018	2019	1	July
-Michigan	Ford	FOR	2017	May	1	NA	NA	NA	NA	1216	1	NA	1	NA	NA	0.2	2018	2019	1	
-Michigan	Manistique	MAI	2016	September	2	8191	6549	10420	6305	3631	1	1.47	1	10420	5579	0.2	2018	2019	1	August
-Michigan	Manistee	MAN	2016	August	2	2486	2972	7219	4607	546	1	32.2	1	7219	454	0.2	2018	2019	1	August
-Superior	Middle	MIR	2013	June	3	4705	4519	3113	5307	142	1	5.3	7	4705	642	6	2016	2017	1	May
-Superior	Misery	MIS	2018	August	0	18	18	NA	50	102	1	2.1	1	NA	74	0.2	2018	2019	1	
-Michigan	Muskegon	MUS	2017	September	0	NA	NA	NA	NA	7327	1	NA	1	NA	NA	0.2	2017	2019	2	
-Huron	Ocqueoc	OCQ	2016	July	2	6016	2539	4813	9066	363	1	3.8	2	4813	3084	3	2018	2019	1	May
-Ontario	Sterling	STE	2015	August	1	NA	1891	2868	1560	80	1	NA	1	NA	6	0.2	2016	2019	3	May
-Michigan	Swan	SWN	2013	July	5	NA	NA	NA	NA	5	2	NA	1	NA	NA	0.2	2018	2019	1	July
-Superior	Tahquamenon	TAQ	2015	October	3	9465	10549	3974	1531	2176	1	15.5	1	3974	950	0.2	2018	2019	1	June
-Superior	Two-Hearted	TWO	2016	August	2	NA	NA	NA	NA	521	1	NA	1	NA	NA	0.2	2018	2019	1	
+Lake	Stream	Pop	TreatYear	TreatMonth	Nc_2016	Nc_2017	Nc_2018	Nc_2019	Drainage	potential	TrapToMouth	SampSites	YearSinceTreat	NcAge1	SampDist
+Superior	Bad	BAD	2017	September	1605	5878	11301	"4,333"	2270	1	22.7	1	2	4333	0.2
+Michigan	Betsie	BEI	2017	June	1259	984	1654	561	590	1	14.4	1	2	1654	0.2
+Superior	Betsy	BET	2017	July	396	3778	1097	615	230	1	8.5	2	2	1097	0.2
+Superior	Brule	BRL	2018	June	3194	21024	36558	770	408	1	6.4	1	1	36558	0.2
+Erie	Cattaraugus	CAT	2016	May	NA	5901	1637	NA	1129	1	33.1	4	2	1637	11
+Huron	Pigeon	CHE	2000	July	NA	NA	NA	NA	1550	1	1.7	3	NA	NA	6
+Huron	East Au Gres	EAG	2018	June	1846	1542	2124	"1,456"	653	1	16.7	2	1	2124	3
+Michigan	Ford	FOR	2017	May	NA	NA	NA	NA	1216	1	NA	1	2	NA	0.2
+Michigan	Manistique	MAI	2016	September	8191	6549	10420	"6,305"	3631	1	1.47	1	2	10420	0.2
+Michigan	Manistee	MAN	2016	August	2486	2972	7219	"4,607"	546	1	32.2	1	2	7219	0.2
+Superior	Middle	MIR2016	2013	June	4705	4519	3113	"5,307"	142	1	5.3	7	3	4705	6
+Superior	Misery	MIS	2018	August	18	18	NA	50	102	1	2.1	1	1	NA	0.2
+Michigan	Muskegon	MUS	2017	September	NA	NA	NA	NA	7327	1	NA	1	2	NA	0.2
+Huron	Ocqueoc	OCQ	2016	July	6016	2539	4813	"9,066"	363	1	3.8	2	3	4813	3
+Michigan	Swan	SWN	2013	July	NA	NA	NA	NA	5	2	NA	1	6	NA	0.2
+Superior	Tahquamenon	TAQ	2015	October	9465	10549	3974	"1,531"	2176	1	15.5	1	4	3974	0.2
+Superior	Two-Hearted	TWO	2016	August	NA	NA	NA	NA	521	1	NA	1	3	NA	0.2
+															
+															
+															
+															
